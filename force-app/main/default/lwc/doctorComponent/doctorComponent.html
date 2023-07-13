@@ -1,0 +1,32 @@
+<template>
+ 
+ <div class="heading">
+			<h2>Our Doctors</h2>
+		</div>
+<template if:true={allDoctors}>
+
+    <lightning-layout multiple-rows="true">
+
+        <template for:each={allDoctors} for:item="doctors">
+
+            <lightning-layout-item size="3" key={doctors.Id} class="slds-var-p-around_X-small doctor-box">
+
+                <div class="first-bar"></div>
+                <div class="second-bar">
+
+                    <span class="logo-image"><img src={doctors.Image_Url__c} ></span>
+                    <h2 class="text-center card-header">Prof (Dr.). {doctors.Name}</h2>
+                    <p class="text-center font-color card-para1">{doctors.Specialty__c}</p>
+                    <p class="text-center font-color card-para2"  style="height: 66px;overflow: hidden;display: -webkit-box; -webkit-box-orient: vertical;">{doctors.Description__c}</p>
+                    <div class="text-center">
+                        <button type="button" onclick={handlebookappointment}>Book Now</button>
+                    </div>
+
+                </div>
+
+            </lightning-layout-item>
+
+        </template>
+    </lightning-layout>
+</template>
+</template>

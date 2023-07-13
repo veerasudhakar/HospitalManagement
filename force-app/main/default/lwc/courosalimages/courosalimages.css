@@ -1,0 +1,11 @@
+.carousel {
+  width: 100%;
+}
+
+.carousel .carousel-items {
+  display: none; /* Hide the carousel items initially */
+}
+
+.carousel .carousel-item {
+  text-align: center;
+}

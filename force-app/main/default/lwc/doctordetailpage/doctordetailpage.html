@@ -1,0 +1,19 @@
+<template>
+    <div class="col-sm-3 slds-grid-col">
+           
+        <template for:each={allDoctors} for:item="doctors">
+
+            <lightning-layout-item size="2" key={doctors.Id} class="slds-var-p-around_X-small doctor-box">
+
+                <div class="first-bar"></div>
+                <div class="second-bar">
+
+                    <span class="logo-image"><img src={doctors.Image_Url__c} >
+                    <h2 class="text-center card-header">Prof (Dr.). {doctors.Name}</h2>
+                    <p class="text-center font-color card-para1">{doctors.Specialty__c}</p> </span>
+                    <p class="text-center font-color card-para2"  style="height: 66px;overflow: hidden;display: -webkit-box; -webkit-box-orient: vertical;">{doctors.Biograph__c}</p>
+               </div>
+            </lightning-layout-item>
+ </template>
+  </div>
+</template>

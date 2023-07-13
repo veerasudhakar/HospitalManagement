@@ -1,0 +1,19 @@
+.heading
+{
+	color: #486424;
+    margin: 0px 0px 0px 0px;
+    font-family: "Poppins", Sans-serif;
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 58px;
+    letter-spacing: -1.2px;
+	padding-left: 571px;
+	padding-top: 20px;
+}
+.Doctor
+{
+	     font-size: 15px;
+	color: white;
+	padding-left: 35px;
+    padding-right: 15px;
+}

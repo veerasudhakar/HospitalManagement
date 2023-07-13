@@ -1,0 +1,17 @@
+<template>
+
+<template for:each={recordsval} for:item="obj">
+    <lightning-card  variant="Narrow"  title="Hello" icon-name="standard:account" key={obj.Name}>
+       <p> {obj.Name}</p>
+    </lightning-card>
+</template>
+     <lightning-datatable
+         key-field="id"
+         data={recordsval}
+         show-row-number-column
+         row-number-offset={rowOffset}
+         hide-checkbox-column
+         columns={cl}
+         >
+     </lightning-datatable>
+</template>

@@ -1,0 +1,14 @@
+<template>
+
+    <ul>
+        <template for:each={displayedDoctors} for:item="doctor">
+            <li key={doctor.Id}>{doctor.Name}</li>
+        </template>
+    </ul>
+
+    <!-- <div>
+        <lightning-button label="Previous" onclick={handlePrevious} disabled={currentPage === 1}></lightning-button>
+        <lightning-button label="Next" onclick={handleNext} disabled={currentPage === totalPages}></lightning-button>
+    </div> -->
+
+</template>

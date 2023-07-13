@@ -1,0 +1,37 @@
+<template>
+    <div class="main">
+        <template if:true={showform}>
+            <lightning-card title="Raise Your Case Here...!!" style="allign:center">
+                <lightning-record-edit-form
+                    record-id={recordId}
+                    object-api-name="Case"
+                    onsuccess={handleSuccess}
+                    onsubmit={handleSubmit}
+                >
+                    <lightning-messages></lightning-messages>
+                    <lightning-input-field field-name="ContactId"></lightning-input-field>
+                    <lightning-input-field field-name="Reason" required></lightning-input-field>
+                    <lightning-input-field field-name="Subject" required></lightning-input-field>
+                    <lightning-input-field field-name="Priority"></lightning-input-field>
+                    <lightning-input-field field-name="Origin" required></lightning-input-field>
+                    <lightning-input-field field-name="Description"></lightning-input-field>
+                    <lightning-input-field field-name="Product__c"></lightning-input-field>
+                    <lightning-input-field field-name="Skill_Name__c"></lightning-input-field>
+                    <center>
+                        <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Submit">
+                        </lightning-button>
+                    </center>
+                </lightning-record-edit-form>
+            </lightning-card>
+        </template>
+        <template if:false={showform}>
+            <c-case-details
+                case-number={caseNumber}
+                subject={subject}
+                priority={priority}
+                origin={origin}
+                description={description}
+            ></c-case-details>
+        </template>
+    </div>
+</template>
