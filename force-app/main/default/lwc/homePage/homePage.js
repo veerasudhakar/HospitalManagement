@@ -11,7 +11,7 @@ import userEmailFIELD from '@salesforce/schema/User.Email';
 import userIsActiveFIELD from '@salesforce/schema/User.IsActive';
 import userAliasFIELD from '@salesforce/schema/User.Alias';
 import getBio from '@salesforce/apex/DoctorInfo.getBio';
-
+import { refreshApex } from '@salesforce/apex';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
@@ -252,159 +252,161 @@ export default class homePage extends NavigationMixin(LightningElement) {
     if (event.target.name === 'Email') {
       this.email = event.target.value
     }
-    if (event.target.name === 'Phone') {
-      this.phone = event.target.value
-    }
+    // if (event.target.name === 'Phone') {
+    //   this.phone = event.target.value
+    // }
     if (event.target.name === 'address') {
       this.address = event.target.value
     }
   }
 
-  // Country Code Data
-  // @track conNum = '';
-  //   countryNuber = '';
+  //Country Code and Mobile Number Data Started
+  
+  @track conNum = '';
+    countryNuber = '';
 
-  //   @track countryCodes = [
-  //       { label: '+91  (IND)', value: '91' },
-  //       { label: '+1   (USA)', value: '1' },
-  //       { label: '+44  (UK)', value: '44' },
-  //       { label: '+61  (AUS)', value: '61' },
-  //       { label: '+33  (FRA)', value: '33' },
-  //       { label: '+49  (GER)', value: '49' },
-  //       { label: '+39  (ITA)', value: '39' },
-  //       { label: '+81  (JAP)', value: '81' },
-  //       { label: '+86  (CHI)', value: '86' },
-  //       { label: '+52  (MEX)', value: '52' },
-  //       { label: '+55  (BRA)', value: '55' },
-  //       { label: '+971 (UAE)', value: '971' },
-  //       { label: '+966 (SAR)', value: '966' },
-  //       { label: '+65  (SIN)', value: '65' },
-  //       { label: '+82  (SKO)', value: '82' },
-  //       { label: '+64  (NZE)', value: '64' },
-  //       // Add more country codes as needed
-  //   ];
-  //   @track contactNumberPattern = ''; // Regex pattern for contact number validation
+    @track countryCodes = [
+        { label: '+91  (IND)', value: '91' },
+        { label: '+1   (USA)', value: '1' },
+        { label: '+44  (UK)', value: '44' },
+        { label: '+61  (AUS)', value: '61' },
+        { label: '+33  (FRA)', value: '33' },
+        { label: '+49  (GER)', value: '49' },
+        { label: '+39  (ITA)', value: '39' },
+        { label: '+81  (JAP)', value: '81' },
+        { label: '+86  (CHI)', value: '86' },
+        { label: '+52  (MEX)', value: '52' },
+        { label: '+55  (BRA)', value: '55' },
+        { label: '+971 (UAE)', value: '971' },
+        { label: '+966 (SAR)', value: '966' },
+        { label: '+65  (SIN)', value: '65' },
+        { label: '+82  (SKO)', value: '82' },
+        { label: '+64  (NZE)', value: '64' },
+        // Add more country codes as needed
+    ];
+    @track contactNumberPattern = ''; // Regex pattern for contact number validation
 
-  //   handleCountryCodeChange(event) {
-  //       const selectedCountryCode = event.detail.value;
-  //       this.countryNuber = selectedCountryCode;
-  //       console.log('selectedCountryCode' + selectedCountryCode)
-  //       // Define contact number pattern based on the selected country code
-  //       this.contactNumberPattern = this.getContactNumberPattern(selectedCountryCode);
-  //       // Define placeholder based on the selected country code
-  //       this.contactNumberPlaceholder = this.getContactNumberPlaceholder(selectedCountryCode);
-  //   }
+    handleCountryCodeChange(event) {
+        const selectedCountryCode = event.detail.value;
+        this.countryNuber = selectedCountryCode;
+        console.log('selectedCountryCode' + selectedCountryCode)
+        // Define contact number pattern based on the selected country code
+        this.contactNumberPattern = this.getContactNumberPattern(selectedCountryCode);
+        // Define placeholder based on the selected country code
+        this.contactNumberPlaceholder = this.getContactNumberPlaceholder(selectedCountryCode);
+    }
 
-  //   getContactNumberPattern(countryCode) {
-  //       // Define regex patterns for each country's contact number format
-  //       // You can add more patterns as needed
-  //       switch (countryCode) {
-  //           case '1':
-  //               return '^\\d{10}$'; // Example pattern: +11234567890
-  //           case '91':
-  //               return '\\d{10}$'; // Example pattern: +911234567890
-  //           case '44':
-  //               return '^\\d{10}$'; // Example pattern: +441234567890
-  //           case '61':
-  //               return '^\\d{10}$'; // Example pattern: +611234567890
-  //           case '33':
-  //               return '^\\d{9}$'; // Example pattern: +33123456789
-  //           case '49':
-  //               return '^\\d{11}$'; // Example pattern: +491234567890
-  //           case '39':
-  //               return '^\\d{10}$'; // Example pattern: +391234567890
-  //           case '81':
-  //               return '^\\d{10}$'; // Example pattern: +811234567890
-  //           case '86':
-  //               return '^\\d{11}$'; // Example pattern: +861234567890
-  //           case '52':
-  //               return '^\\d{10}$'; // Example pattern: +521234567890
-  //           case '55':
-  //               return '^\\d{11}$'; // Example pattern: +551234567890
-  //           case '971':
-  //               return '^\\d{9}$'; // Example pattern: +971123456789
-  //           case '966':
-  //               return '^\\d{9}$'; // Example pattern: +966123456789
-  //           case '65':
-  //               return '^\\d{8}$'; // Example pattern: +6512345678
-  //           case '82':
-  //               return '^\\d{10}$'; // Example pattern: +821234567890
-  //           case '86':
-  //               return '^\\d{11}$'; // Example pattern: +861234567890
-  //           case '966':
-  //               return '^\\d{9}$'; // Example pattern: +966123456789
-  //           case '61':
-  //               return '^\\d{10}$'; // Example pattern: +611234567890
-  //           case '64':
-  //               return '^\\d{9}$'; // Example pattern: +64123456789
-  //           // Add more cases for other country codes
-  //           default:
-  //               return ''; // Default pattern if country code is not selected
-  //       }
-  //   }
+    getContactNumberPattern(countryCode) {
+        // Define regex patterns for each country's contact number format
+        // You can add more patterns as needed
+        switch (countryCode) {
+            case '1':
+                return '^\\d{10}$'; // Example pattern: +11234567890
+            case '91':
+                return '\\d{10}$'; // Example pattern: +911234567890
+            case '44':
+                return '^\\d{10}$'; // Example pattern: +441234567890
+            case '61':
+                return '^\\d{10}$'; // Example pattern: +611234567890
+            case '33':
+                return '^\\d{9}$'; // Example pattern: +33123456789
+            case '49':
+                return '^\\d{11}$'; // Example pattern: +491234567890
+            case '39':
+                return '^\\d{10}$'; // Example pattern: +391234567890
+            case '81':
+                return '^\\d{10}$'; // Example pattern: +811234567890
+            case '86':
+                return '^\\d{11}$'; // Example pattern: +861234567890
+            case '52':
+                return '^\\d{10}$'; // Example pattern: +521234567890
+            case '55':
+                return '^\\d{11}$'; // Example pattern: +551234567890
+            case '971':
+                return '^\\d{9}$'; // Example pattern: +971123456789
+            case '966':
+                return '^\\d{9}$'; // Example pattern: +966123456789
+            case '65':
+                return '^\\d{8}$'; // Example pattern: +6512345678
+            case '82':
+                return '^\\d{10}$'; // Example pattern: +821234567890
+            case '86':
+                return '^\\d{11}$'; // Example pattern: +861234567890
+            case '966':
+                return '^\\d{9}$'; // Example pattern: +966123456789
+            case '61':
+                return '^\\d{10}$'; // Example pattern: +611234567890
+            case '64':
+                return '^\\d{9}$'; // Example pattern: +64123456789
+            // Add more cases for other country codes
+            default:
+                return ''; // Default pattern if country code is not selected
+        }
+    }
 
-  //   getContactNumberPlaceholder(countryCode) {
-  //       // Define placeholders for each country's contact number format
-  //       // You can add more placeholders as needed
-  //       switch (countryCode) {
-  //           case '1':
-  //               return '(XXX) XXX-XXXX'; // Example placeholder: +1 (123) 456-7890
-  //           case '91':
-  //               return 'XXXXX-XXXXX'; // Example placeholder: +91 12345-67890
-  //           case '44':
-  //               return 'XXXX XXXXXX'; // Example placeholder: +44 1234 567890
-  //           case '61':
-  //               return 'XXXX XXX XXX'; // Example placeholder: +61 1234 567 890
-  //           case '33':
-  //               return 'XX XX XX XX'; // Example placeholder: +33 12 34 56 78
-  //           case '49':
-  //               return 'XXXX XXXXXXX'; // Example placeholder: +49 1234 567890
-  //           case '39':
-  //               return 'XXX XXXXXXX'; // Example placeholder: +39 123 4567890
-  //           case '81':
-  //               return 'XXX-XXXX-XXXX'; // Example placeholder: +81 123-4567-8901
-  //           case '86':
-  //               return 'XXX-XXXX-XXXX'; // Example placeholder: +86 1234-5678-9012
-  //           case '52':
-  //               return 'XXXX XXXXXXX'; // Example placeholder: +52 1234 567890
-  //           case '55':
-  //               return 'XX XXXXX-XXXX'; // Example placeholder: +55 12 34567-8901
-  //           case '971':
-  //               return 'XXXXXXXXX'; // Example placeholder: +971 123456789
-  //           case '966':
-  //               return 'XXXXXXXXX'; // Example placeholder: +966 123456789
-  //           case '65':
-  //               return 'XXXX XXXX'; // Example placeholder: +65 1234 5678
-  //           case '82':
-  //               return 'XXXX-XXXX-XXXX'; // Example placeholder: +82 1234-5678-9012
-  //           case '86':
-  //               return 'XXXX-XXXX-XXXX'; // Example placeholder: +86 1234-5678-9012
-  //           case '966':
-  //               return 'XXXXXXXXX'; // Example placeholder: +966 123456789
-  //           case '61':
-  //               return 'XXXX XXX XXX'; // Example placeholder: +61 1234 567 890
-  //           case '64':
-  //               return 'XXX XXX XXX'; // Example placeholder: +64 123 456 789
-  //           // Add more cases for other country codes
-  //           default:
-  //               return ''; // Default placeholder if country code is not selected
-  //       }
-  //   }
+    getContactNumberPlaceholder(countryCode) {
+        // Define placeholders for each country's contact number format
+        // You can add more placeholders as needed
+        switch (countryCode) {
+            case '1':
+                return '(XXX) XXX-XXXX'; // Example placeholder: +1 (123) 456-7890
+            case '91':
+                return 'XXXXX-XXXXX'; // Example placeholder: +91 12345-67890
+            case '44':
+                return 'XXXX XXXXXX'; // Example placeholder: +44 1234 567890
+            case '61':
+                return 'XXXX XXX XXX'; // Example placeholder: +61 1234 567 890
+            case '33':
+                return 'XX XX XX XX'; // Example placeholder: +33 12 34 56 78
+            case '49':
+                return 'XXXX XXXXXXX'; // Example placeholder: +49 1234 567890
+            case '39':
+                return 'XXX XXXXXXX'; // Example placeholder: +39 123 4567890
+            case '81':
+                return 'XXX-XXXX-XXXX'; // Example placeholder: +81 123-4567-8901
+            case '86':
+                return 'XXX-XXXX-XXXX'; // Example placeholder: +86 1234-5678-9012
+            case '52':
+                return 'XXXX XXXXXXX'; // Example placeholder: +52 1234 567890
+            case '55':
+                return 'XX XXXXX-XXXX'; // Example placeholder: +55 12 34567-8901
+            case '971':
+                return 'XXXXXXXXX'; // Example placeholder: +971 123456789
+            case '966':
+                return 'XXXXXXXXX'; // Example placeholder: +966 123456789
+            case '65':
+                return 'XXXX XXXX'; // Example placeholder: +65 1234 5678
+            case '82':
+                return 'XXXX-XXXX-XXXX'; // Example placeholder: +82 1234-5678-9012
+            case '86':
+                return 'XXXX-XXXX-XXXX'; // Example placeholder: +86 1234-5678-9012
+            case '966':
+                return 'XXXXXXXXX'; // Example placeholder: +966 123456789
+            case '61':
+                return 'XXXX XXX XXX'; // Example placeholder: +61 1234 567 890
+            case '64':
+                return 'XXX XXX XXX'; // Example placeholder: +64 123 456 789
+            // Add more cases for other country codes
+            default:
+                return ''; // Default placeholder if country code is not selected
+        }
+    }
 
-  //   handleContactNumberBlur(event) {
-  //       let cNumber = event.target.value;
-  //       console.log('cNumber event.target.value' + event.target.value)
-  //       console.log('cNumber' + cNumber)
-  //       this.conNum = '+' + this.countryNuber + ' ' + cNumber;
-  //       console.log('this.conNum ' + this.conNum )
-  //       const contactNumberInput = this.template.querySelector('lightning-input');
-  //       console.log('contactNumberInput' + contactNumberInput)
-  //       if (!contactNumberInput.checkValidity()) {
-  //           // Handle invalid contact number format here
-  //           // You can display an error message or perform any required action
-  //           this.contactNumberInputerrormsg = 'Please enter a valid Contact Number.';
-  //       }
-  //   }
+    handleContactNumberBlur(event) {
+        let cNumber = event.target.value;
+        console.log('cNumber event.target.value' + event.target.value)
+        console.log('cNumber' + cNumber)
+        this.conNum = '+' + this.countryNuber + ' ' + cNumber;
+        console.log('this.conNum ' + this.conNum )
+        const contactNumberInput = this.template.querySelector('lightning-input');
+        console.log('contactNumberInput' + contactNumberInput)
+        if (!contactNumberInput.checkValidity()) {
+            // Handle invalid contact number format here
+            // You can display an error message or perform any required action
+            this.contactNumberInputerrormsg = 'Please enter a valid Contact Number.';
+        }
+    }
+    //Country Code Ended
 /*
   const Consultdoctor=this.template.querySelector('.Consultdoctor')
         console.log('Consultdoctor',Consultdoctor.value)
@@ -499,9 +501,9 @@ export default class homePage extends NavigationMixin(LightningElement) {
 
 
     if (selectedDate > new Date().setHours(0, 0, 0, 0) || selectedDate.toDateString() == new Date().toDateString()) {
-      console.log(this.firstName, this.lastName, this.email, this.address, this.phone, this.selectedSlot)
+      console.log(this.firstName, this.lastName, this.email, this.address,  this.conNum, this.selectedSlot)
 
-      if (this.firstName && this.lastName && this.email && this.address && this.phone && this.selectedSlot) {
+      if (this.firstName && this.lastName && this.email && this.address && this.conNum && this.selectedSlot) {
         var contact = { sobjectType: 'Patient__c' };
         contact.Consult_doctor__c = this.doctorIdap;
 
@@ -509,7 +511,7 @@ export default class homePage extends NavigationMixin(LightningElement) {
         contact.Last_Name__c = this.lastName;
         contact.Email__c = this.email;
         contact.Address__c = this.address;
-        contact.Phone__c = this.phone;
+        contact.Phone__c = this.conNum;
         //contact.Appointment_Date__c = this.myDatetime;
         console.log('doc id on selecting appointment ' + this.selectedDate);
         contact.Appointment_Date__c = this.selectedDate;
@@ -528,7 +530,8 @@ export default class homePage extends NavigationMixin(LightningElement) {
                   variant: 'success'
                 })
               );
-      //location.reload();
+              // return refreshApex (this.getAvailableSlots);
+      location.reload();
                 this.isShowModal=false
             })
             .catch(error => {
