@@ -27,9 +27,9 @@ export default class homePage extends NavigationMixin(LightningElement) {
     //     investImg = Healthtip2_IMG;
     //  fruitsImg = Courosal3_IMG;
     carouselImages = [
-        'https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1688642694000/Healthtip1?',
-        'https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1688541974000/Healthtip2?',
-        'https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1688546878000/Courosal3?'
+        'https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1688642694000/Healthtip1?',
+        'https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1688541974000/Healthtip2?',
+        'https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1688546878000/Courosal3?'
     ];
 
 

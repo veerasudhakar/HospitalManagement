@@ -325,141 +325,111 @@
 		  >
 			<lightning-card>
 			  <!-- <span class="slds-text-heading_small slds-truncate" style="padding-left: 555px;"><b>Appointment For Patient</b></span> -->
-  
-			  <div
-				style="
-				  display: flex;
-				  justify-content: space-evenly;
-				  align-items: center;
-				"
-			  >
-				<div style="margin-left: 06px; width: 220px">
-				  <lightning-input
-					type="text"
-					variant="standard"
-					name="firstName"
-					label="First Name"
-					onchange={handleChange}
-					required
-				  ></lightning-input>
-				</div>
-				<div style="margin-left: 06px; width: 220px">
-				  <lightning-input
+  <!-- TOTAL INPUT FEILDS -->
+  <lightning-layout multiple-rows>
+	<lightning-layout-item size="6">
+		<lightning-input
+		type="text"
+		variant="standard"
+		name="firstName"
+		label="First Name"
+		style="max-width: 90%;"
+		onchange={handleChange}
+		required
+	  ></lightning-input>
+	  </lightning-layout-item>
+
+	  <lightning-layout-item size="6">
+		<lightning-input
 					type="text"
 					variant="standard"
 					name="lasttName"
 					label="Last Name"
 					onchange={handleChange}
+					style="max-width: 90%;"
 					required
 				  ></lightning-input>
-				</div>
-			  </div>
-  
-			  <div
-				style="
-				  display: flex;
-				  justify-content: space-evenly;
-				  align-items: center;
-				"
-			  >
-				<div style="margin-left: 06px; width: 220px">
-				  <lightning-input
-					type="text"
-					variant="standard"
-					name="Email"
-					label="Email"
-					onchange={handleChange}
-					required
-				  ></lightning-input>
-				</div>
-				<!-- <div style="margin-left: 06px; width: 220px">
-				  <lightning-input
-					type="text"
-					variant="standard"
-					name="Phone"
-					label="Mobile Number"
-					onchange={handleChange}
-					required
-				  ></lightning-input>
-				</div> -->
-  
-				<!-- for the country code and Mobile -->
-				<div class="contactNum">
-						  <lightning-input type="tel" label="Mobile Number " pattern={contactNumberPattern} required
+	  </lightning-layout-item>
+	</lightning-layout>
+
+	<lightning-layout multiple-rows>
+		<lightning-layout-item size="6">
+			<lightning-input
+			type="text"
+			variant="standard"
+			name="Email"
+			label="Email"
+			onchange={handleChange}
+			style="max-width: 90%;"
+			required
+		  ></lightning-input>
+		</lightning-layout-item>
+
+<lightning-layout-item size="2">
+	<div class="countryCode ">
+		<lightning-combobox options={countryCodes} onchange={handleCountryCodeChange}
+			placeholder="Select Country Code" label="Country Code" style="max-width: 80%;">
+		</lightning-combobox>
+	</div>
+</lightning-layout-item>
+
+<lightning-layout-item size="4">
+	<lightning-input type="tel" label="Mobile Number " pattern={contactNumberPattern} required
 							  placeholder={contactNumberPlaceholder} onchange={handleContactNumberBlur} onblur={handleContactNumberBlur}
-							  error-message={contactNumberInputerrormsg}>
+							  error-message={contactNumberInputerrormsg} style="max-width: 85%;">
   
 						  </lightning-input>
-  
-					  </div>
-  
-				<div class="countryCode ">
-						  <lightning-combobox options={countryCodes} onchange={handleCountryCodeChange}
-							  placeholder="Select Country Code" label="Country Code">
-						  </lightning-combobox>
-					  </div>
-					  <!-- Ending the Country code -->
-			  </div>
-			  <div
-				style="
-				  display: flex;
-				  justify-content: space-evenly;
-				  align-items: center;
-				"
-			  >
-				<div style="margin-left: 06px; width: 220px">
-				  <lightning-input
-					type="long-text"
-					variant="standard"
-					name="address"
-					label="Address"
-					placeholder="Enter Address.."
-					onchange={handleChange}
-					required
-				  ></lightning-input>
-				</div>
-				<div style="margin-left: 06px; width: 220px">
-				  <lightning-input
+</lightning-layout-item>	
+	</lightning-layout>
+
+	<lightning-layout multiple-rows>
+		<lightning-layout-item size="6">
+			<lightning-input
+			type="long-text"
+			variant="standard"
+			name="address"
+			label="Address"
+			placeholder="Enter Address.."
+			onchange={handleChange}
+			style="max-width: 90%;"
+			required
+		  ></lightning-input>
+		</lightning-layout-item>
+
+
+		<lightning-layout-item size="6">
+			<lightning-input
 					type="date"
 					label="Select Date"
 					value={selectedDate}
 					onchange={handleDateChange}
+					style="max-width: 90%;"
 					required
 					message={errorMsg}
 				  ></lightning-input>
-				  <div>{errorMsg}</div>
-				</div>
-			  </div>
-			  <div
-				style="
-				  display: flex;
-				  justify-content: space-evenly;
-				  align-items: center;
-				"
-			  >
-				<div style="margin-left: 06px; width: 220px">
-				  <!-- <lightning-record-edit-form object-api-name="Patient__c">
-  <lightning-messages></lightning-messages>
-  <lightning-input-field field-name="Consult_doctor__c"></lightning-input-field>
-  
-  </lightning-record-edit-form> -->
-				  <!-- <lightning-record-edit-form object-api-name="Patient__c">
-  <lightning-input-field class="Consultdoctor" field-name="Consult_doctor__c" variant="label-inline"></lightning-input-field>
-  </lightning-record-edit-form> -->
-				</div>
-				<div style="margin-left: 06px; width: 220px">
-				  <lightning-combobox
+		</lightning-layout-item>
+	</lightning-layout>
+
+	<lightning-layout>
+		<lightning-layout-item size="6"></lightning-layout-item>
+		<lightning-layout-item size="6">
+			<lightning-combobox
 					label="Available Slots"
 					options={availableSlots}
 					placeholder="Select a Slot"
 					onchange={handleSlotSelection}
+					style="max-width: 90%;"
 					required
 				  >
 				  </lightning-combobox>
-				</div>
-			  </div>
+		</lightning-layout-item>
+	</lightning-layout>
+
+
+
+			<!-- TOTAL INPUT FEILDS -->
   
-			  <footer style="margin-top: 2%">
+			  <footer style="margin-top: 5%">
 				<lightning-button
 				  variant="brand outline"
 				  style="margin-left: 36%"
