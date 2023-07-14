@@ -49,6 +49,7 @@ export default class homePage extends NavigationMixin(LightningElement) {
     currentUserInfo({error, data}) {
         if (data) {
              this.currentUserName = data.fields.Name.value;
+            
             // this.currentUserEmail = data.fields.Email.value;
             // this.currentIsActive = data.fields.IsActive.value;
             // this.currentUserAlias = data.fields.Alias.value;
@@ -107,15 +108,15 @@ export default class homePage extends NavigationMixin(LightningElement) {
         console.log('this.doctorInput',this.doctorInput)
     }
 
-    handleClick() {
-        // Perform your desired actions here
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: "https://wisseninfotech-cb-dev-ed.develop.my.site.com/Patient1Site/s/login/?startURL=%2FPatient1Site%2Fs%2F%3Ft%3D1688016377986"
-            }
-        });
-    }
+    // handleClick() {
+    //     //Perform your desired actions here
+    //     this[NavigationMixin.Navigate]({
+    //         type: 'standard__webPage',
+    //         attributes: {
+    //             url: "https://wisseninfotech-cb-dev-ed.develop.my.site.com/Patient1Site/s/login/?startURL=%2FPatient1Site%2Fs%2F%3Ft%3D1688016377986"
+    //         }
+    //     });
+    // }
 
 
     // for picklist value 
@@ -171,22 +172,7 @@ export default class homePage extends NavigationMixin(LightningElement) {
  @track doctorDetail = false
  @track doctorIdap=''
 
-    showModalBox(event) {  
-      if(this.currentUserName==''){
-      console.log('this.statesValue.....'+this.statesValue)
-      console.log('this.currentUserName.....'+this.currentUserName)
-      if(this.statesValue === undefined){
-        this[NavigationMixin.Navigate]({
-          type: 'standard__webPage',
-          attributes: {
-              url: "https://wisseninfotech-cb-dev-ed.develop.my.site.com/Patient1Site/s/login/"
-          }
-      });
-      }
-      else if(this.statesValue != undefined) {
-        this.isShowModal = true;
-      }
-    }else{
+     aboutDoctor(event) {  
       this.doctorDetail=true
       this.homePage=false
         console.log('doctorId',event.target.value)
@@ -198,7 +184,7 @@ export default class homePage extends NavigationMixin(LightningElement) {
         }).catch(error=>{
           console.log(error)
         })
-    } 
+    
     }
 
     hideModalBox() {  
@@ -211,8 +197,31 @@ export default class homePage extends NavigationMixin(LightningElement) {
     }
 
     bookAppointment(){
+      
+ if(this.currentUserName==''){
+  console.log('this.statesValue.....'+this.statesValue)
+  console.log('this.currentUserName.....'+this.currentUserName)
+  if(this.statesValue === undefined){
+    this[NavigationMixin.Navigate]({
+      type: 'standard__webPage',
+      attributes: {
+          url: "https://wisseninfotech-cb-dev-ed.develop.my.site.com/Patient1Site/s/login/"
+      }
+  });
+  this.doctorDetail=true
+  this.homePage=false
+  }
+  // else if(this.statesValue != undefined) {
+  //   //this.isShowModal = true;
+  //   this.doctorDetail=true
+  //   this.homePage=false
+  // }
+}else{
+  
+
       this.isShowModal=true
     }
+  }
 
   @track patientid;
   @track error;
