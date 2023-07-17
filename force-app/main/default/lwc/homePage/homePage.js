@@ -172,11 +172,30 @@ export default class homePage extends NavigationMixin(LightningElement) {
  @track doctorDetail = false
  @track doctorIdap=''
 
+ connectedCallback(){
+  if(sessionStorage.getItem('dtrId')){
+    console.log('connectedCallback sessionId',sessionStorage.getItem('dtrId'))
+    this.doctorDetail=true
+      this.homePage=false
+    
+    getBio({recordId:sessionStorage.getItem('dtrId')})
+    .then(result=>{
+      this.dtrDetail = result
+      sessionStorage.clear()
+      console.log(' result.data connected Callback', result)
+    }).catch(error=>{
+      console.log(error)
+    })
+  }
+ }
+
      aboutDoctor(event) {  
       this.doctorDetail=true
       this.homePage=false
         console.log('doctorId',event.target.value)
         this.doctorIdap = event.target.value
+         sessionStorage.setItem('dtrId',this.doctorIdap)
+        console.log('sessionId',sessionStorage.getItem('dtrId'))
         getBio({recordId:this.doctorIdap})
         .then(result=>{
           this.dtrDetail = result
