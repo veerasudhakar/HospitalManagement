@@ -177,8 +177,8 @@ export default class homePage extends NavigationMixin(LightningElement) {
     console.log('connectedCallback sessionId',sessionStorage.getItem('dtrId'))
     this.doctorDetail=true
       this.homePage=false
-    
-    getBio({recordId:sessionStorage.getItem('dtrId')})
+    this.doctorIdap=sessionStorage.getItem('dtrId')
+    getBio({recordId: this.doctorIdap})
     .then(result=>{
       this.dtrDetail = result
       sessionStorage.clear()
