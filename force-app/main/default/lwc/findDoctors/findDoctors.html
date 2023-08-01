@@ -1,0 +1,14 @@
+<template>
+    <lightning-input label="Speciality" value={specialityValue} onchange={handleSpecialityChange}></lightning-input>
+    <lightning-input label="Location" value={locationValue} onchange={handleLocationChange}></lightning-input>
+    <lightning-button label="Search" onclick={handleSearchClick}></lightning-button>
+
+    <!-- Display the search results -->
+    <template if:true={searchResults}>
+        <ul>
+            <template for:each={searchResults} for:item="result">
+                <li key={result.Id}>{result.Name}</li>
+            </template>
+        </ul>
+    </template>
+</template>

@@ -1,0 +1,34 @@
+<template>
+  <lightning-card title="Appointment Booking">
+    <template if:true={isNewAppointment}>
+      <!-- New Appointment -->
+      <div class="slds-p-around_medium">
+        <lightning-input label="Patient Name" value={contact.Name} disabled></lightning-input>
+        <lightning-input label="Email" value={contact.Email} disabled></lightning-input>
+        <lightning-input label="Mobile Phone" value={contact.MobilePhone} disabled></lightning-input>
+        <!-- Add other contact fields as needed -->
+        <lightning-input label="Appointment Date" type="date" value={appointmentDate}></lightning-input>
+        <lightning-input label="Available Slots" value={slotsAvailable}></lightning-input>
+        <!-- Add other appointment fields as needed -->
+        <div class="slds-m-top_medium">
+          <lightning-button label="Book Appointment" variant="brand" onclick={bookAppointment}></lightning-button>
+        </div>
+      </div>
+    </template>
+    <template if:true={isExistingAppointment}>
+      <!-- Existing Appointment -->
+      <div class="slds-p-around_medium">
+        <lightning-input label="Patient Name" value={contact.Name} disabled></lightning-input>
+        <lightning-input label="Email" value={contact.Email} disabled></lightning-input>
+        <lightning-input label="Mobile Phone" value={contact.MobilePhone} disabled></lightning-input>
+        <!-- Add other contact fields as needed -->
+        <lightning-input label="Appointment Date" type="date" value={appointment.Appointment_Date__c} disabled></lightning-input>
+        <lightning-input label="Available Slots" value={appointment.SlotsAvailable__c} disabled></lightning-input>
+        <!-- Add other appointment fields as needed -->
+        <div class="slds-m-top_medium">
+          <lightning-button label="Edit Appointment" variant="brand" onclick={editAppointment}></lightning-button>
+        </div>
+      </div>
+    </template>
+  </lightning-card>
+</template>

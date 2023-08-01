@@ -1,0 +1,10 @@
+<template>
+    <lightning-button label="Open Record Form" onclick={handleButtonClick}></lightning-button>
+    <lightning-record-form
+        object-api-name="Patient__c"
+        record-type-id="00h5i00000FZXsfAAH"
+        mode="popup"
+        onsuccess={handleSuccess}
+        oncancel={handleCancel}>
+    </lightning-record-form>
+</template>

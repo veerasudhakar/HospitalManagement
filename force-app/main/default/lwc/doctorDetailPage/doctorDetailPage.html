@@ -1,0 +1,35 @@
+<template>
+	
+	<template if:true={dtrDetail}>
+
+		<template for:each={dtrDetail} for:item="obj">
+			<lightning-card  key={obj.Id} variant="Narrow" title={obj.Name} icon-name="standard:account">
+			<lightning-layout multiple-rows>
+				<lightning-layout-item size="1" padding="around-small" >
+					<div class="custom-box"></div>
+				</lightning-layout-item>
+				<lightning-layout-item size="2" padding="around-small" >
+					<div class="custom-box">
+					   <div> <img src={obj.Image_Url__c} style="border-radius: 50%;border: 5px solid skyblue;"/></div>
+					   <div style="font-size: 28px;color: #17224D;padding-top: 25px;"> {obj.Name}</div>
+					   <div style="font-size: 16px;color: #757575;;padding-top: 10px;">Specialty:{obj.Specialty__c}</div>
+					</div>
+				</lightning-layout-item>
+				<lightning-layout-item size="1" padding="around-small" >
+					<div class="custom-box"></div>
+				</lightning-layout-item>
+				<lightning-layout-item size="6" padding="around-small" >
+					<div class="custom-box">
+						<div style="font-size: xx-large;font-weight: 500;">Biography :</div>
+						<lightning-formatted-rich-text value={obj.Biograph__c}></lightning-formatted-rich-text>
+					</div>
+				</lightning-layout-item>
+				<lightning-layout-item size="2" padding="around-small" >
+					<div class="custom-box"></div>
+				</lightning-layout-item>
+
+			</lightning-layout>
+			</lightning-card>
+		</template>
+	</template>
+</template>

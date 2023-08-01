@@ -1,0 +1,12 @@
+.logo-image img {
+    height: 85%;
+    width: 32%;
+    border: 5px solid #079c27;
+    object-fit: cover;
+    margin-left: 23%;
+    border-radius: 50%;
+}
+.font
+{
+   font-size:13px;
+}

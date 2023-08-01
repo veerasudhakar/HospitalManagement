@@ -1,0 +1,95 @@
+<template>
+    <lightning-card>
+	<div style="
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 21vh;
+			padding-bottom: 100px;
+		  ">
+		<div style="margin-left;width:30%; margin-right;margin-top:75px;padding-right:10px ">
+			<strong>
+			  <lightning-input
+				type="text"
+				variant="standard"
+				label="Search Doctor"
+				placeholder="search doctor here..."
+				value={doctorInput}
+				onchange={searchHandler}
+			  ></lightning-input>
+			</strong>
+		</div>
+		<div style="margin-left;margin-top:75px;padding-right:10px ">
+			<strong>
+			  <lightning-combobox
+				name="progress"
+				label="Specilaty"
+				value={Specilatyvalue}
+				placeholder="Select Specilaty"
+				options={Specilatyoptions}
+				onchange={handleChangeSpecilaty}
+			  ></lightning-combobox>
+			</strong>
+		</div>
+		<div style="margin-left;margin-top:75px;padding-right:10px ">
+			<strong>
+			  <lightning-combobox
+				name="progress"
+				label="Location"
+				value={valueLocation}
+				placeholder="Select Location"
+				options={Locationoptions}
+				onchange={handleChangeLocation}
+			  ></lightning-combobox>
+			</strong>
+		</div>
+		<div style="margin-left: 10px; margin-top: 95px">
+			<lightning-button icon-name="utility:refresh" onclick={handleRefreshButtonClick}></lightning-button>
+		</div>
+	</div>
+    
+	<template if:true={allDoctors}>
+		<lightning-layout multiple-rows="true">
+			<template for:each={allDoctors} for:item="doctors">
+				<lightning-layout-item size="3" key={doctors.Id} class="slds-var-p-around_X-small doctor-box">
+					<div class="first-bar"></div>
+					<div class="second-bar">
+						<span class="logo-image">
+                      <img src={doctors.Image_Url__c}/></span>
+						<h2 class="text-center card-header">{doctors.Name}</h2>
+						<p class="text-center font-color card-para1">
+							{doctors.Specialty__c}
+						</p>
+						<p class="text-center font-color card-para1">
+							{doctors.Location__c}
+						</p>
+						<p class="text-center font-color card-para2" style="
+					  height: 66px;
+					  overflow: hidden;
+					  display: -webkit-box;
+					  -webkit-box-orient: vertical;
+					">
+							{doctors.Description__c}
+						</p>
+						<div class="text-center">
+							<!--MOdal Component-->
+							<lightning-button variant="success" label="About Doctor" title="Book a Appointment"
+								value={doctors.Id} onclick={aboutDoctor}>
+							</lightning-button>
+
+							<!--MOdal Component End-->
+							<!--<template if:true={isButtonVisible}>-->
+							<!-- <lightning-button label="Book Now" onclick={handleClick} disabled={isButtonDisabled}>
+								  </lightning-button>
+								  <lightning-button label="Book Now1" onclick={handleClick1} disabled={isButtonDisabled1}>
+								  </lightning-button> -->
+							<!--</template>-->
+						</div>
+					</div>
+				</lightning-layout-item>
+			</template>
+		</lightning-layout>
+ 
+	</template>
+</lightning-card>
+</template>

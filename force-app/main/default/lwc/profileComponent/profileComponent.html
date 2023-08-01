@@ -1,0 +1,89 @@
+<template>
+    <div class="slds-text-align_right">
+        <lightning-button variant="success" label=" Edit Profile"  onclick={handelbutton}></lightning-button>
+         <lightning-button variant="brand"  icon-name="utility:refresh" onclick={refreshhandelbutton}></lightning-button>
+        </div>
+     
+   <template if:false={viewmode}>
+       
+    <lightning-card title=" Profile Details :">
+        <template for:each={record} for:item="obj">
+            <h2 key={obj.Id}>
+
+
+
+<div class="slds-grid slds-gutters Align">
+<div class="slds-col slds-size_1-of-3">
+ <span>Name : {obj.Name}</span>
+</div>
+<div class="slds-col slds-size_1-of-3">
+  <span>Email : {obj.Email__c}</span>
+</div>
+</div><br>
+<div class="slds-grid slds-gutters Align">
+<div class="slds-col slds-size_1-of-3">
+  <span>Phone : {obj.Phone__c}</span>
+</div>
+<div class="slds-col slds-size_1-of-3">
+<span>Speciality : {obj.Specialty__c}</span>
+</div>
+</div>
+
+                <!-- <p>Name : {obj.Name}</p>
+                <p>Email : {obj.Email__c}</p>
+                <p>Phone : {obj.Phone__c}</p>
+                <p>Speciality : {obj.Specialty__c}</p> -->
+                <lightning-button variant="base" label="Edit" title="titleName"
+                                  value={obj.Id} onclick={handleClick}>
+                </lightning-button>
+              
+                 <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" ari a-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <!-- <header class="slds-modal__header"> -->
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit </h2>
+                </header> -->
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                   <!-- <c-modal-Comp></c-modal-Comp> -->
+                    <template if:true={selectedRecordId}>
+        <lightning-card title="Edit Profile Details :">
+            <lightning-record-form
+                object-api-name={ObjectApiName}
+                columns="2"
+                onsubmit={handlesubmit}
+                oncancel={handlecancel}
+                fields={fields}
+                mode="edit"
+                record-id={selectedRecordId}
+                key={selectedRecordId}
+                
+            >
+            </lightning-record-form>
+        </lightning-card>
+    </template>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <!-- <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button>
+                </footer> -->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+            </h2>
+        </template>
+    </lightning-card>
+   </template>
+
+</template>

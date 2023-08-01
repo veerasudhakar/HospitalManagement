@@ -1,0 +1,26 @@
+<template>
+<lightning-card title="Doctor Edit Form"  class="form-caard">
+                <lightning-record-edit-form
+                    record-id={recordId}
+                    object-api-name="Doctor__c"
+                    onsuccess={handleSuccess}
+                    onsubmit={handleSubmit}
+                >
+                    <lightning-messages></lightning-messages>
+                    <!-- <lightning-input-field field-name="ContactId"></lightning-input-field> -->
+                    <!-- <lightning-output-field field-name="OwnerId"></lightning-output-field> -->
+                    <lightning-input-field field-name="Name"></lightning-input-field>
+                    <lightning-input-field field-name="Phone__c" ></lightning-input-field>
+                    <lightning-input-field field-name="Email__c"></lightning-input-field>
+                    <lightning-input-field field-name="Image_Url__c" ></lightning-input-field>
+                 
+                    <lightning-input-field field-name="Specialty__c"></lightning-input-field>
+                    <lightning-input-field field-name="Biograph__c"></lightning-input-field>
+                    <center>
+                        <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Submit" onclick={showToast}>
+                        </lightning-button>
+                       
+                    </center>
+                </lightning-record-edit-form>
+</lightning-card>
+</template>

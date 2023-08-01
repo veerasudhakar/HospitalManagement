@@ -1,0 +1,20 @@
+<template>
+ <lightning-card title="Doctor Appointments">
+        <template if:true={doctorAppointments}>
+            <ul>
+                <template for:each={doctorAppointments} for:item="appointment">
+                    <li key={appointment.Id}>
+                        <p>Appointment Name: {appointment.Name}</p>
+                        <p>Appointment Date: {appointment.Appointment_Date__c}</p>
+                        <p>Status: {appointment.Status__c}</p>
+                        <!-- Add other appointment fields as needed -->
+                    </li>
+                </template>
+            </ul>
+        </template>
+        <template if:false={doctorAppointments}>
+            <p if:true={error}>{error}</p>
+            <p if:false={error}>No appointments found for the doctor.</p>
+        </template>
+    </lightning-card>
+</template>

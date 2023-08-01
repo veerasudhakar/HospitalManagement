@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title = "Component Query Selector">
+    <h1>This is Veera Sudhakar</h1>
+
+  <template for:each={userNames} for:item="user">
+    <div class = "name" key={user}>{user}</div>
+  </template>
+  <lightning-button variant="brand" label="Brand" title="Primary action" onclick={handleClick}></lightning-button>
+</lightning-card>
+</template>

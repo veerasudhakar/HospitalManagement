@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Record form - view Mode">
+        <template if:true={doctorList}>
+            <template for:each={doctorList} for:item="doctor">
+                <h2 key={doctor.Id}>
+                    <p>{doctor.Name}</p>
+                    <p>{doctor.Email__c}</p>
+                    <p>{doctor.Phone__c}</p>
+                    <p>{doctor.Specialty__c}</p>
+                    <lightning-button variant="base" label="Edit" title="titleName"
+                                      data-record-id={doctor.Id} onclick={handleEdit}>
+                    </lightning-button>
+                </h2>
+            </template>
+        </template>
+    </lightning-card>
+</template>

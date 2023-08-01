@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="lifeCycleParent Demo">
+        <div class="slds-m-around_medium">
+<template if:false={isChildVisible}>
+    <lightning-button variant="base" 
+    label="Show Child" 
+    title="Show Child" 
+    onclick={handleClick} 
+    class="slds-m-left_x-small">
+</lightning-button>
+    </template>
+
+    <template if:true={isChildVisible}>
+        <lightning-button variant="success" 
+        label="Remove Child" 
+        title="Remove Child" 
+        onclick={handleClick} 
+        class="slds-m-left_x-small">
+    </lightning-button>
+    </template>
+            <!-- <lightning-input type="text" label="Name" onchange={handleClick}>
+                {name}
+            </lightning-input> -->
+            <template if:true={isChildVisible}>
+                <c-life-cycle-child></c-life-cycle-child>
+            </template>
+            
+
+
+        </div>
+    </lightning-card>
+    
+</template>

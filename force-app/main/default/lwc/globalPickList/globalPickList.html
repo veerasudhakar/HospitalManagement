@@ -1,0 +1,125 @@
+<template>
+	<lightning-card>
+		<div height="290px;,width:100%">
+			<img src="https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1689568857000/Doctorbackground" >
+		</div>
+	</lightning-card>
+	<div>
+		<table style="width:26%">
+			<tr>
+				<td style="font-size:larg;width:8%"><b>Select Speciality</b></td>
+				<td style="width:26%">
+					<lightning-combobox name="Select Speciality" onchange={handleMealPreferenceChange}
+						options={controllingValues} placeholder="Select Speciality" value={selectedMealPreference}>
+					</lightning-combobox><br/>
+                </td>
+			</tr>
+			<tr>
+				<td style="font-size:larg"><b>Doctor</b></td>
+				<td style="width:26%">
+					<lightning-combobox name="Select Doctor" onchange={handleMealTypeChange} options={dependentValues}
+						placeholder="Select Doctor" value={selectedType} disabled={isEmpty}>
+					</lightning-combobox>
+					<br/>
+                </td>
+					<!-- <td>
+                    <lightning-button variant="Success" style="margin-left:2%" label="Find Doctor" onclick={handleClick}>
+                    </lightning-button>
+                </td> -->
+			</tr>
+		</table>
+	</div>
+	<template if:true={mydoctor}>
+		<lightning-layout multiple-rows="true">
+
+			<template for:each={mydoctor} for:item="doctors">
+				<lightning-layout-item size="3" key={doctors.Id} class="slds-var-p-around_X-small doctor-box">
+					<div class="first-bar"></div>
+					<div class="second-bar">
+						<span class="logo-image">
+                      <img src={doctors.Image_Url__c}/></span>
+						<h2 class="text-center card-header">{doctors.Name}</h2>
+						<p class="text-center font-color card-para1">
+							{doctors.Specialty__c}
+						</p>
+						<p class="text-center font-color card-para1">
+							{doctors.Location__c}
+						</p>
+						<p class="text-center font-color card-para2" style="
+					  height: 66px;
+					  overflow: hidden;
+					  display: -webkit-box;
+					  -webkit-box-orient: vertical;
+					">
+							{doctors.Description__c}
+						</p>
+						<div class="text-center">
+							<!--MOdal Component-->
+							<!-- <lightning-button variant="success" label="About Doctor" title="Book a Appointment"
+								value={doctors.Id} onclick={handleLWCNavigate}>
+							</lightning-button> -->
+							<lightning-button variant="success" label="About Doctor" value={doctors.Id}
+								onclick={aboutDoctor}>
+							</lightning-button>
+
+							<!--MOdal Component End-->
+							<!--<template if:true={isButtonVisible}>-->
+							<!-- <lightning-button label="Book Now" onclick={handleClick} disabled={isButtonDisabled}>
+								  </lightning-button>
+								  <lightning-button label="Book Now1" onclick={handleClick1} disabled={isButtonDisabled1}>
+								  </lightning-button> -->
+							<!--</template>-->
+						</div>
+					</div>
+				</lightning-layout-item>
+				<lightning-layout-item size="9" key={doctors.Id} style="padding-left: 15px;padding-top: 10px;">
+					<template if:true={doctorDetail}>
+						<template for:each={mydoctor} for:item="obj">
+							<lightning-card key={obj.Id} variant="Narrow" title={obj.Name} icon-name="standard:account">
+								<lightning-button variant="brand" label="Back" slot="actions" onclick={backHome}>
+								</lightning-button>
+								<lightning-layout multiple-rows>
+									<lightning-layout-item size="1" padding="around-small">
+										<div class="custom-box"></div>
+									</lightning-layout-item>
+									<lightning-layout-item size="2" padding="around-small">
+										<div class="custom-box">
+											<div>
+												<img src={obj.Image_Url__c} style="border-radius: 50%; border: 5px solid skyblue" />
+											</div>
+												<div style="font-size: 28px; color: #17224d; padding-top: 25px">
+													{obj.Name}
+												</div>
+												<div style="font-size: 16px; color: #757575; padding-top: 10px">
+													Specialty:{obj.Specialty__c}
+												</div>
+											</div>
+									</lightning-layout-item>
+									<lightning-layout-item size="1" padding="around-small">
+										<div class="custom-box"></div>
+									</lightning-layout-item>
+									<lightning-layout-item size="6" padding="around-small">
+										<div class="custom-box">
+											<div style="font-size: xx-large; font-weight: 500">
+												Biography :
+											</div>
+											<lightning-formatted-rich-text value={obj.Biograph__c}>
+											</lightning-formatted-rich-text>
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item size="2" padding="around-small">
+										<div class="custom-box"></div>
+									</lightning-layout-item>
+								</lightning-layout>
+
+							</lightning-card>
+						</template>
+					</template>
+
+				</lightning-layout-item>
+			</template>
+		</lightning-layout>
+	</template>
+	</div>
+
+</template>

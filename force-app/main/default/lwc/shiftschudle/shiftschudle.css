@@ -1,0 +1,62 @@
+.highBackground {
+    background-color: #f58484;
+}
+.lowBackground {
+    background-color: #a6f587;
+}
+.medBackground {
+    background-color: #f0ff6d;
+}
+.nullBackground {
+    background-color: #f7d7d7;
+}
+:host {
+	--sds-c-card-color-background: linear-gradient(180deg, rgba(255,255,255,1) 90%, #fae8d2 100%);
+}
+.case-tile{
+    display: block;
+	border: 1px solid #d2955d;
+	border-radius: .25rem;
+	background-color: #f19a2f;
+    font-size: 15px;
+    /* background-image: url('/resource/background'); */
+}
+.Img{
+    background-image: url('/resource/background');
+}
+.slds-m-left_x-small{
+ background-color: aquamarine;
+
+}
+.btn{
+	margin-left: 30px;
+	margin-right: 30px;
+    /* position: absolute; */
+    top:50%;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+    background-color:#6df5c1;
+    color: #3c403f;
+    border: 2px solid black;
+    border-radius:5px;
+  
+}
+.btn:hover{
+	background-color:#0cca81;
+	color: white;
+}
+.btn2{
+	margin-right: 30px;
+	top:50%;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+    background-color:#d938e7;
+    color: #b9d8d0;
+    border: 2px solid black;
+    border-radius:5px;
+	border-color: black;
+}

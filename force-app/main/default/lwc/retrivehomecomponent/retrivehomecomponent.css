@@ -1,0 +1,218 @@
+.bg-color {
+	background-color: white;
+}
+
+.bgcolor{
+   background-color: #486424;
+   color: white;
+}
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #0070c0; /* Adjust color as needed */
+  }
+  .arrow.left {
+    left: 10px;
+  }
+  .doc-weekdays {
+    display: block;
+    margin-bottom: 5px;
+}
+.doc-timings {
+    color: green;
+    font-size: 11px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+ /* .carousel
+{
+    height:100%;
+    width:100%;
+}
+
+/* .carousel-image{
+    height: 10px;
+    width:initial;
+} */
+.slds-carousel {
+  width: 100%;
+  height: 427px; /* Set desired height for the carousel */
+  overflow: hidden;
+  position: relative;
+}
+.headtitle{
+       
+    padding-left:42%;
+    font-size: 25px;
+    font-weight: 500;
+    color: midnightblue;
+       
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+      
+}
+.carousel-container {
+    flex-basis: 100%;
+    max-width: 100%;
+    height: 400px;
+  
+				
+}
+
+.city-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+    
+ 
+
+
+.slds-carousel__image>img {
+    width: 100%;
+    height: 400px;
+}
+.nav-logo-2{
+    width: 12em;
+    display: block;
+    padding-left: 50px;
+}
+.slds-page-header {
+	 background-color: white;
+	font-size: 15px;
+    color:white;
+  
+}
+
+
+  
+
+.heading
+{
+	color: #486424;
+    margin: 0px 0px 0px 0px;
+    font-family: "Poppins", Sans-serif;
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 58px;
+    letter-spacing: -1.2px;
+	padding-left: 571px;
+	padding-top: 20px;
+}
+.elementor-widget-wrap
+{
+	display: flex;
+	width:100%;
+}
+.Details
+{
+	width:100%;	
+}
+.doctor-item
+{
+	border-radius: 5px;
+    padding: 10px;
+    margin-bottom: -4px;
+    width: 50%;
+}
+.slds-grid
+{
+	display: flex;
+}
+.slds-grid-col {
+    width: 25%;
+    border-radius: 5px;
+    margin: 10px;
+  
+}
+.first-bar {
+height: 140px;
+background-color: #486424;
+    margin: 10px;
+}
+.second-bar {
+padding: 5px;
+position: relative;
+background-color: #fff;
+height: 372px;
+    margin: 10px;
+}
+ .logo-image {
+    position: absolute;
+    top: -70px;
+    border: 5px solid #fff;
+    height: 150px;
+    width: 150px;
+    right: 90px;
+    border-radius: 50%;
+} 
+
+.logo-image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.second-bar button {
+    background: #317390;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 20px 0px 20px 0px;
+    padding: 15px 15px 15px 15px;
+    border-radius: 14px 14px 14px 14px;
+    color: #fff;
+    border: none;
+}
+.second-bar button:hover {
+    background: #444;
+}
+.text-center {
+	text-align: center;
+}
+.card-header {
+    margin: 100px 0px 0px 0px;
+	font-size: 18px;
+	font-weight: 700;
+}
+.card-para1 {
+	line-height: 2em;
+}
+.card-para2 {
+    margin: 10px 0px;
+    font-size: 14px;
+}
+.font-color {
+	color: #8a8d91;
+}
+.slds-wrap
+{
+	flex-wrap: wrap;
+    align-items: flex-start;
+}
+.Details{
+	width: 100%;
+	height: 100%;
+}
+.member-name
+{
+    color: #000000;
+    font-family: "Nunito", Sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1em;
+    margin: 0px 0px 10px 0px;
+}.dummy{
+	color : black;
+}

@@ -1,0 +1,331 @@
+<template>
+	
+
+	<div class="doctorbackground">
+
+		<!--<div class="myinput" >-->
+		<div style="display: flex; justify-content: center; align-items:center ; height: 21vh; ">
+
+		
+			<div style="margin-left;width:30%; margin-right;margin-top:75px; ">
+
+			<strong>	<lightning-input type="text" variant="standard" name="name" placeholder="Enter Doctor Name" value={myValue}
+					onchange={handleChange}></lightning-input>
+			</strong>
+
+			</div>
+			<!-- <div style="margin-right:-120px">
+				
+				<lightning-icon icon-name="utility:search" alternative-text="Hospital"></lightning-icon>
+				
+			</div>-->
+			<div style="margin-left;margin-top:75px;">
+				<strong><lightning-combobox name="Specialty" placeholder="Select Speciality" value={selectedValue}
+					options={picklistValues} onchange={handleValueSelection}></lightning-combobox>
+				</strong>
+			</div>
+			<div style="margin-left;margin-top:75px;">
+			<strong>	<lightning-combobox name="location"  placeholder="Select location" value={mylocationvalues} options={locationvalues}
+					onchange={handlelocationselection}></lightning-combobox>
+			</strong>
+			
+			</div>
+
+
+
+			<div style="margin-left: 10px;margin-top: 95px">
+				<lightning-button icon-name="utility:refresh" onclick={handleRefreshButtonClick}></lightning-button>
+			</div>
+
+		</div>
+		
+
+
+	</div>
+
+
+
+		<div class=backgroundcolor>
+	<template if:true={hasContacts}>
+		
+		<lightning-layout multiple-rows="true">
+
+
+
+
+			
+			<template for:each={contactsWithImageUrl}  for:item="contact">
+
+
+				<lightning-layout-item size="6" key={contact.Id} class="slds-var-p-around_X-small doctor-box">
+
+
+
+					<lightning-card class="Doctorsdetailcard" data-id={contact.Id} data-firstname={contact.FirstName}
+						data-lastname={contact.LastName}>
+						<div class="slds-var-p_horizontal_small">
+							<div class="slds-grid slds-wrap">
+								<div class="slds-col slds-size_6-of-12">
+									<div>
+										<template if:true={contact.imageUrl}>
+
+											<img  src={contact.imageUrl} alt="Contact Photo"  style="width:174px;height:158px;margin-left:50px; border:2px; solid #fff;
+  -moz-box-shadow: 10px 10px 5px #ccc;
+  -webkit-box-shadow: 10px 10px 5px #ccc;
+  box-shadow: rgb(204, 204, 204) 7px 7px 4px;
+  -moz-border-radius:25px;
+  -webkit-border-radius:121px;
+  border-radius:25px;"/>
+
+
+                                </template>
+								
+									</div>
+
+								</div>
+								
+								<div class="slds-col slds-size_6-of-12">
+
+
+									<div>
+										<p>
+											<lightning-icon icon-name="standard:user" alternative-text="Contact">
+											</lightning-icon>
+											<strong style="margin-left:10px; font-size:18px"> Name : {contact.FirstName} {contact.LastName}</strong>
+										</p>
+									</div>
+									</br>
+
+									<div>
+										<lightning-icon icon-name="standard:account" alternative-text="Hospital">
+										</lightning-icon>
+
+										<lightning-formatted-text value={contact.AccountName}
+											style=" margin-left: 10px; color:#000000 ; font-size:20px">
+										</lightning-formatted-text>
+									</div>
+									</br>
+									<!-- <template if:true={active}> 
+										<strong><p>Doctor Status :   Online</p></strong>
+									</template>
+									<template if:false={active}>
+										<strong><p>Doctor Status :   Offline</p></strong>
+									</template>-->
+									<strong style="margin-left:25px; font-size:13px">  Email :   {contact.Email}</strong> <br>
+									<!--<strong><p>Postal Code :   {contact.Postalcode}</p></strong>-->
+									<strong style="margin-left:25px; font-size:13px">Speciality : {contact.Specialty}</strong> <br>
+									
+									<img src="https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1686309577000/Award?">
+									
+									
+									
+									<strong style="margin-left:10px; font-size:13px">Years of Exp : {contact.Yearsofexp}</strong>
+									<br>
+
+									<!-- <strong><p>Speciality : {contact.Specialty}</p></strong> -->
+									
+									       
+									<img src="https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1686303603000/Locationimage?">
+
+									<strong style="margin-left:10px; font-size:13px">Location : {contact.Location}</strong>
+									</br>
+						
+
+									</br>
+									
+								
+									
+									
+
+									
+									
+								</div>
+
+							</div>
+
+							<!-- <hr class="hrline"> -->
+							<div class="d-flex justify-content-between-Timings-appointment">
+							<div class="Timeleft">
+								<h6 class="mb-1 heightline-2 fs13 ft-wight-1">
+								<b><span class="Weekdays">MON-SUN</span></b>
+									<span class="Timings">(10:00 AM-1:00 PM)	</span></br>
+									<span class="Timings">(5:00 PM-8:00 PM)	</span>
+									</h6>
+									
+									</div>
+									<div class="dp-timeright text-end">
+									<button  class="custom-button1"
+										onclick={handlebookappointment} data-id={contact.Id} value={contact.AccountId}
+										data-firstname={contact.FirstName} data-lastname={contact.LastName}>Book Appointment
+									</button>
+									</div>
+									</div>	
+										
+						</div>
+
+					</lightning-card>
+
+
+
+				</lightning-layout-item>
+
+			</template>
+
+
+
+		</lightning-layout>
+		<!--</ul>-->
+	</template>
+	  
+
+	<template if:true={showNoDoctorsMessage}>
+		
+		<div style="background-color: azure;height: 204px;margin-top: 1%;margin-left: 20%;width: 60%;" c-contactwithimage0002_contactwithimage0002=""><p style="
+    font-size: 112px;
+    font-size: 71px;
+    margin-left: 36%;
+    color: red;
+    text-shadow: 0 0 #c91919;
+    font-weight: 500;
+    font-variant-caps: all-petite-caps;
+">Sorry</p>
+<p style="
+    font-size: 46px;
+    margin-left: 23%;
+    text-shadow: 0 0 #c91919;
+    font-weight: 500;
+    font-variant-caps: all-petite-caps;
+"> No Doctors Available</p></div>
+	</template>
+
+
+
+
+	<template if:true={isModalOpen}>
+		<!-- Modal/Popup Box LWC starts here -->
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- Modal/Popup Box LWC header here -->
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Booking Appointment to Dr.
+						{doctorFirstName} {doctorLastName}</h2>
+				</header>
+				<!-- Modal/Popup Box LWC body starts here -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+
+
+
+
+					<div style="display: flex; justify-content: space-evenly; align-items: center; ">
+						<div style="margin-left:06px; width:220px">
+							<lightning-input type="text" variant="standard" name="firstname" label="FirstName"
+								placeholder="Enter First Name.." onchange={handleNameChange} required></lightning-input>
+						</div>
+						<div style="margin-left:06px; width:220px">
+
+							<lightning-input type="text" variant="standard" name="lastName" label="LastName"
+								placeholder="Enter last Name.." onchange={handlelastnameinp}></lightning-input>
+						</div>
+					</div>
+
+					<div style="display: flex; justify-content: space-evenly; align-items: center; ">
+						<div style="margin-left:06px; width:220px">
+
+							<lightning-input type="long-text" variant="standard" name="address" label="Address"
+								placeholder="Enter Address.." onchange={handleaddressinp} required></lightning-input>
+
+						</div>
+						<div style="margin-left:06px; width:220px">
+
+							<!-- <lightning-input label="Mobile Number " type="tel" pattern="[0-9]{10}" value={phoneNumber}
+								onchange={handlePhoneNumberChange} required onkeypress={handleKeyPress}
+								message-when-pattern-mismatch="Please enter a 10-digit numeric phone number.">
+							</lightning-input> -->
+
+							<div class="countryCode ">
+								<lightning-combobox options={countryCodes} onchange={handleCountryCodeChange}
+									placeholder="Select Country Code" label="Country Code">
+								</lightning-combobox>
+							</div>
+
+							<div class="contactNum">
+								<lightning-input type="tel" label="Mobile Number " pattern={contactNumberPattern} required
+									placeholder={contactNumberPlaceholder} onchange={handleContactNumberBlur} onblur={handleContactNumberBlur}
+									error-message={contactNumberInputerrormsg}>
+
+								</lightning-input>
+
+							</div>
+
+						</div>
+					</div>
+
+					<div style="display: flex; justify-content: space-evenly; align-items: center; ">
+						<div style="margin-left:06px; width:220px">
+							<lightning-input type="email" variant="standard" name="Email" label="Email"
+								placeholder="Email here..." onchange={handleemailinput} required></lightning-input>
+
+						</div>
+						<div style="margin-left:06px; width:220px">
+							<lightning-input type="date" label="Select Date" value={selectedDate}
+								onchange={handleDateChange} required message={errorMsg}></lightning-input>
+							<div>{errorMsg}</div>
+
+							<lightning-combobox label="Available Slots" options={availableSlots}
+								placeholder="Select a Slot" onchange={handleSlotSelection} required>
+							</lightning-combobox>
+
+						</div>
+
+					</div>
+					</br>
+					<!-- <div style="margin-left:373px;">
+						<lightning-button variant="brand" label="Confirm Appointment" title="confirm appointment"
+							onclick={handleConfirmAppointment} disabled={isDisabled}></lightning-button>
+
+					</div> -->
+
+				</div>
+				<!-- Modal/Popup Box LWC footer starts here -->
+				<footer class="slds-modal__footer">
+					<lightning-button variant="brand outline" class="slds-p-around_small" onclick={closeModal} title="Cancel" label="Cancel"></lightning-button>
+					<lightning-button variant="brand" label="Confirm Appointment" title="confirm appointment"
+							onclick={handleConfirmAppointment} disabled={isDisabled}></lightning-button>
+					<!-- <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button> -->
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+		
+	</template>
+	
+	
+	<!-- <lightning-layout>
+		<lightning-layout-item>
+			<lightning-button label="Previous" icon-name="utility:chevronleft" onclick={Previoushandler}>	
+
+				</lightning-button>
+		</lightning-layout-item>
+	
+		<lightning-layout-item>
+			<lightning-button label="Next" icon-name="utility:chevronright" onclick={Nexthandler}>
+				</lightning-button>
+			</lightning-layout-item>
+		</lightning-layout> -->
+
+	 <div slot="footer" class="slds-var-m-vertical_medium">
+             <c-pagination-component records={contacts} record-size="4" onupdate={updateContactHandler}></c-pagination-component>
+            </div>
+         
+		</div>
+
+</template>

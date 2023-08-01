@@ -1,0 +1,439 @@
+<template>
+	<template if:true={homePage}>
+		<div app_flexipage-header_header="" class="slds-page-header header flexipageHeader" style="border-radius:0px">
+
+			<div app_flexipage-header_header="" class="right">
+				<div>
+					<!-- workaround for W-2413659, remove once that bug is fixed -->
+					<!--render facet: 617:0-->
+				</div>
+			</div>
+			<h1 style="font-weight: 700;font-size: 27px;margin-left: 34%;color: darkcyan;">Welcome To Hospital
+				Management</h1>
+		</div>
+		<div class="container">
+			<div class="city-container-wrapper">
+				<div class="city-container">
+					<h4 class="message">Top 6 Locations Hospitals In India
+					</h4>
+					<h2 class="text">Patient Appointment Service constitutes the best hospital in India with over 10,000
+						beds across 73 hospitals, 5000+ pharmacies, over 300 clinics, 1100+ diagnostic centres and 200+
+						Telemedicine units.</h2>
+				</div>
+				<template for:each={cities} for:item="city">
+					<div key={city.id} class="city-tile">
+						<img src={city.logoUrl} alt={city.name} class="city-logo" />
+						<h3>{city.name}</h3>
+					</div>
+				</template>
+			</div>
+		</div>
+		<lightning-layout multiple-rows class="widget-mr"
+			style="background-color: white;height: 167px;padding-left: 7%;">
+
+			<lightning-layout-item size="4" class="col" style="max-height: fit-content;max-width: 100%;">
+				<a onclick={navPage} class="tp_widget" id="btn-cta-bb-book-appointment">
+					<img style="margin-left: 50px;margin-top: 10px;" src="https://www.apollohospitals.com/wp-content/themes/apollohospitals/assets-v3/images/bookappt_icon.svg" alt="icon" width="100" height="100">
+					<h5 style="font-weight: 600;font-size: 21px;">Book Appointment</h5>
+				</a>
+			</lightning-layout-item>
+			<lightning-layout-item size="4" class="col" style="max-height: fit-content;max-width: 100%;">
+				<a onclick={trackAppointment} class="tp_widget">
+					<img style="margin-left: 50px;margin-top: 10px;" src="https://cdn3d.iconscout.com/3d/premium/preview/tracking-parcel-4775903-3978683@0.png?f=avif&h=700" alt="icon" width="100" height="100">
+					<h5 style="font-weight: 600;font-size: 21px;">Track/Cancel Appointment</h5>
+				</a>
+			</lightning-layout-item>
+			<lightning-layout-item size="4" class="col" style="max-height: fit-content;max-width: 100%;">
+				<a onclick={resecheduleAppointment} class="tp_widget">
+					<img style="margin-left: 50px;margin-top: 10px;" src="https://cdn3d.iconscout.com/3d/premium/preview/reschedule-date-6673749-5575960.png?f=avif&h=700" alt="icon" width="100" height="100">
+					<h5 style="font-weight: 600;font-size: 21px;">Resechedule Appointment</h5>
+				</a>
+			</lightning-layout-item>
+		</lightning-layout>
+		<div class="container">
+			<div class="carousel-container">
+				<lightning-carousel onclick={navPage}>
+					<lightning-carousel-image src={healthImg}
+						description="When in public places, especially if they are having symptoms such as cough, fever etc. to avoid direct droplet contact. Stay at home as much as possible"
+						style="width: 100%; ">
+					</lightning-carousel-image>
+					<lightning-carousel-image src={investImg}
+						description="Physical fitness is not only one of the most important keys to a healthy body, it is the basis of dynamic and creative intellectual activity."
+						style="width: 100%; ">
+					</lightning-carousel-image>
+					<lightning-carousel-image src={fruitsImg}
+						description="Investing in your health means taking care of your body so it can take care of you. It means eating well, exercising, and getting the right amount of sleep"
+						style="width: 100%; ">
+					</lightning-carousel-image>
+				</lightning-carousel>
+			</div>
+		</div>
+	</template>
+	<template if:true={trackModel}>
+		<!-- Modal/Popup Box LWC starts here -->
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- Modal/Popup Box LWC header here -->
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close " title="Close" style="color:black" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" style="color:black"
+                            alternative-text="close"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Track Appointment With
+						Email</h2>
+				</header>
+				<!-- Modal/Popup Box LWC body starts here -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+
+
+
+
+					<div style="display: flex; justify-content: space-evenly;height: 182px;; align-items: center; ">
+						<div style="margin-left:06px; width:220px">
+							<lightning-input style="padding-bottom: 8px;" type="text" variant="standard" name="Email"
+								label="Email" placeholder="Enter First Name.." onchange={trackApp} required>
+							</lightning-input>
+							<template if:true={error}>
+								<p style="color:red">No Results Found</p>
+							</template>
+							<lightning-button variant="success" label="Submit" style="margin-left: 39px;"
+								onclick={submitTrack} class="slds-m-left_x-small"></lightning-button>
+							<lightning-button variant="brand" label="Close" onclick={closeModal}
+								class="slds-m-left_x-small"></lightning-button>
+							<!-- <button onclick={submitTrack}>Submit</button> -->
+							<!-- <button onclick={closeModal}>Close</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</template>
+	<template if:true={trackModel2}>
+		<!-- Modal/Popup Box LWC starts here -->
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- Modal/Popup Box LWC header here -->
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close " title="Close" style="color:black" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" style="color:black"
+                            alternative-text="close"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+					<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Track Appointment With Email</h2>
+				</header>
+				<!-- Modal/Popup Box LWC body starts here -->
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+
+
+
+
+					<div style="display: flex; justify-content: space-evenly;height: 182px;; align-items: center; ">
+						<div style="margin-left:06px; width:220px">
+							<lightning-input style="padding-bottom: 8px;" type="text" variant="standard" name="Email"
+								label="Email" placeholder="Enter First Name.." onchange={trackApp2} required>
+							</lightning-input>
+							<template if:true={error}>
+								<p style="color:red">No Results Found</p>
+							</template>
+							<lightning-button variant="success" label="Submit" style="margin-left: 39px;"
+								onclick={submitTrack2} class="slds-m-left_x-small"></lightning-button>
+							<lightning-button variant="brand" label="Close" onclick={closeModal}
+								class="slds-m-left_x-small"></lightning-button>
+							<!-- <button onclick={submitTrack}>Submit</button> -->
+							<!-- <button onclick={closeModal}>Close</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</template>
+	<template if:true={trackData}>
+		<template if:false={homePage}>
+			<div style="width: 100%;background-color:white; ">
+				<lightning-icon icon-name="utility:home" onclick={backToHome}
+					style="float: right;margin-right: 2%; margin-top: 0.4%;" alternative-text="Home" title="Home">
+				</lightning-icon>
+				<div style="margin-left:2%">
+					<lightning-tabset>
+
+						<lightning-tab label="All Appointements">
+							<div class="slds-scrollable" style="height:100%; width:100%" tabindex="0">
+								<template if:true={ptData}>
+									<table>
+										<tr>
+											<td><b> S.No </b></td>
+											<td><b> Patient Name </b></td>
+											<td><b> Doctor Name </b></td>
+											<td><b> Email </b> </td>
+											<td> <b> Appointment Date </b> </td>
+											<td> <b> Slot Time (24HRS)  </b> </td>
+											<td> <b>Status</b> </td>
+										</tr>
+										<template for:each={ptData} for:item="obj" for:index="index">
+											<tr key={obj.Id}>
+												<td> {obj.index} </td>
+												<td> {obj.Name} </td>
+												<td> {obj.Consult_doctor__r.Name} </td>
+												<td> {obj.Email }</td>
+												<td> {obj.Appointment_Date__c }</td>
+												<template if:true={obj.CancelledSlot__c}>
+													<td> {obj.CancelledSlot__c }</td>
+												</template>
+												<template if:false={obj.CancelledSlot__c}>
+													<td> {obj.SlotsAvailable__c }</td>
+												</template>
+
+												<td>{obj.Status__c }</td>
+											</tr>
+										</template>
+									</table>
+								</template>
+							</div>
+						</lightning-tab>
+
+						<lightning-tab label="Scheduled Appointements">
+							<div class="slds-scrollable" style="height:100%; width:100%" tabindex="0">
+								<template if:true={scheduledData}>
+									<table>
+										<tr>
+											<td><b> S.No </b></td>
+											<td><b> Patient Name </b></td>
+											<td><b> Doctor Name </b></td>
+											<td><b> Email </b> </td>
+											<td> <b> Appointment Date </b> </td>
+											<td> <b> Slot Time </b> </td>
+											<td> <b>Status</b> </td>
+
+										</tr>
+										<template for:each={scheduledData} for:item="obj" for:index="index">
+											<tr key={obj.Id}>
+												<td> {obj.index} </td>
+												<td> {obj.Name} </td>
+												<td> {obj.Consult_doctor__r.Name} </td>
+												<td> {obj.Email }</td>
+												<td> {obj.Appointment_Date__c }</td>
+												<td> {obj.SlotsAvailable__c }</td>
+												<td>{obj.Status__c }</td>
+												<td>
+													<lightning-button variant="destructive" name={obj.Email}
+														value={obj.Id} label="Cancel Appointment" onclick={cancelApt}
+														class="slds-m-left_x-small"></lightning-button>
+												</td>
+											</tr>
+										</template>
+									</table>
+								</template>
+							</div>
+						</lightning-tab>
+						<lightning-tab label="Completed Appointements">
+							<div class="slds-scrollable" style="height:100%; width:100%" tabindex="0">
+								<template if:true={completedData}>
+									<table>
+										<tr>
+											<td><b> S.No </b></td>
+											<td><b> Patient Name </b></td>
+											<td><b> Doctor Name </b></td>
+											<td><b> Email </b> </td>
+											<td> <b> Appointment Date </b> </td>
+											<td> <b> Slot Time </b> </td>
+											<td> <b>Status</b> </td>
+										</tr>
+										<template for:each={completedData} for:item="obj" for:index="index">
+											<tr key={obj.Id}>
+												<td> {obj.index} </td>
+												<td> {obj.Name} </td>
+												<td> {obj.Consult_doctor__r.Name} </td>
+												<td> {obj.Email }</td>
+												<td> {obj.Appointment_Date__c }</td>
+												<td> {obj.SlotsAvailable__c }</td>
+												<td>{obj.Status__c }</td>
+											</tr>
+										</template>
+									</table>
+								</template>
+							</div>
+						</lightning-tab>
+						<lightning-tab label="Expired/Cancelled Appointements">
+							<div class="slds-scrollable" style="height:100%; width:100%" tabindex="0">
+								<template if:true={ecData}>
+									<table>
+										<tr>
+											<td><b> S.No </b></td>
+											<td><b> Patient Name </b></td>
+											<td><b> Doctor Name </b></td>
+											<td><b> Email </b> </td>
+											<td> <b> Appointment Date </b> </td>
+											<td> <b> Slot Time </b> </td>
+											<td> <b>Status</b> </td>
+										</tr>
+										<template for:each={ecData} for:item="obj" for:index="index">
+											<tr key={obj.Id}>
+												<td> {obj.index} </td>
+												<td> {obj.Name} </td>
+												<td> {obj.Consult_doctor__r.Name} </td>
+												<td> {obj.Email }</td>
+												<td> {obj.Appointment_Date__c }</td>
+												<td> {obj.CancelledSlot__c }</td>
+												<td>{obj.Status__c }</td>
+											</tr>
+										</template>
+									</table>
+								</template>
+							</div>
+						</lightning-tab>
+					</lightning-tabset>
+				</div>
+
+			</div>
+		</template>
+	</template>
+	<template if:true={trackData2}>
+		<template if:false={homePage}>
+			<lightning-card variant="Narrow" title="My Appointments" icon-name="standard:contact">
+				<lightning-icon icon-name="utility:home" onclick={backToHome}
+					style="float: right;margin-right: 2%; margin-top: 0.4%;" alternative-text="Home" title="Home">
+				</lightning-icon>
+
+				<lightning-layout multiple-rows="true">
+					<lightning-layout-item size="12" class="slds-var-p-around_X-small doctor-box">
+						<table class="slds-table slds-table_bordered slds-table_cell-buffer">
+							<thead>
+								<tr>
+									<th>Applicant Name</th>
+									<th>Email</th>
+									<th>Phone</th>
+									<th>Consultant Doctor</th>
+									<th>Doctor Speciality</th>
+									<th>Location</th>
+									<th>Slot</th>
+									<th>Appointment Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<template for:each={myappointmentsare} for:item="myappointment">
+									<tr key={myappointment.Id}>
+										<td>{myappointment.Name}</td>
+										<td>{myappointment.Email}</td>
+										<td>{myappointment.Phone}</td>
+										<td>{myappointment.Consult_doctor__r.Name}</td>
+										<td>{myappointment.Consult_doctor__r.Specialty__c}</td>
+										<td>{myappointment.Consult_doctor__r.Location__c}</td>
+										<td>{myappointment.SlotsAvailable__c}</td>
+										<td>{myappointment.Appointment_Date__c}</td>
+										<td>
+											<lightning-button variant="brand-outline" label="Reschedule"
+												title="Reschedule" onclick={handleClick}
+												data-id={myappointment.Consult_doctor__r.Id}
+												data-string={myappointment.Id}></lightning-button>
+
+										</td>
+									</tr>
+								</template>
+							</tbody>
+						</table>
+					</lightning-layout-item>
+				</lightning-layout>
+			</lightning-card>
+
+
+			<div class="popup-container" if:true={isPopupVisible}>
+				<div class="popup-content">
+					<!-- Content of the popup -->
+					<p> Are you sure to confirm reschedule ?</p>
+					</br>
+					</br>
+
+					<button class="slds-button slds-button_neutral custom-color" onclick={closePopup}>Cancel </button>
+					<button class = "slds-button slds-button_neutral custom-color2" onclick={handleconfirmToo}>Confirm</button>
+
+				</div>
+			</div>
+
+			<template if:true={isShowModal}>
+
+				<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+					aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+					<div class="slds-modal__container">
+
+
+						<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+							<p>Modal/Popup in Lightning Web Component (LWC) Demo</p>
+
+
+
+							<div style="display: flex; justify-content: space-evenly; align-items: center; ">
+
+								<div style="margin-left:06px; width:220px">
+									<lightning-input type="date" label="Select Date" value={selectedDate}
+										onchange={handleDateChange} data-id={selectedRowId} required message={errorMsg}>
+									</lightning-input>
+								</div>
+
+								<div style="margin-left:06px; width:220px">
+									<lightning-combobox label="Available Slots" options={availableSlots}
+										placeholder="Select a Slot" onchange={handleSlotSelection} required>
+									</lightning-combobox>
+								</div>
+							</div>
+
+							</br>
+							<div style=" margin-left: 228px ; color:red">
+								<button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+								<lightning-button variant="success" label="Confirm reschedule"
+									title="Confirm reschedule" onclick={handleConfirmReschedule}
+									class="slds-m-left_x-small"></lightning-button>
+
+							</div>
+						</div>
+
+
+
+					</div>
+				</section>
+				<div class="slds-backdrop slds-backdrop_open"></div>
+
+			</template>
+            <div class="col-md-7">
+				<div class="text-center pt-lg-0 pt-4">
+					<div class="row-justify-content-center">
+						<div class="col-md-12 row">
+							<div class="col-sm-3 col-hover">
+								<img src="https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1687526715000/EntImage?">
+								<h5>Ent</h5>
+							
+
+							</div>
+								<div class="col-sm-3 col-hover">
+										<img src="https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1687526592000/Internalmedicine?">
+										<h5>Internal Medicine</h5>
+		
+
+
+								</div>
+								<div class="col-sm-3 col-hover">
+								<img src="https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1687526122000/Orthopedic?">
+
+											<h5>Orthopedic</h5>
+
+								</div>
+								<div class="col-sm-3 col-hover">
+								<img src="https://wisseninfotech-cb-dev-ed--c.develop.vf.force.com/resource/1687526398000/Pediatric?">
+
+									<h5>Pediatric</h5>
+								</div>
+							
+								</div>
+							</div>
+							</div>
+
+						</div>
+		</template>
+	</template>
+</template>

@@ -1,0 +1,17 @@
+<template>
+    <lightning-tabset>
+        <lightning-tab label="My Appointments" onactive={handleTabActive}>
+            <template if:true={relatedRecords}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={relatedRecords}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                ></lightning-datatable>
+            </template>
+            <template if:false={relatedRecords}>
+                <p>No related records found.</p>
+            </template>
+        </lightning-tab>
+    </lightning-tabset>
+</template>

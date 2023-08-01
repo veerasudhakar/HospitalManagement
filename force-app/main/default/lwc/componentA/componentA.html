@@ -1,0 +1,5 @@
+<template>
+  <lightning-input label="Enter a value" value={inputValue} onchange={handleInputChange}></lightning-input>
+  <lightning-button label="Open Component B" onclick={openComponentB}></lightning-button>
+  <c-component-b receivedvalue={inputValue}></c-component-b>
+</template>

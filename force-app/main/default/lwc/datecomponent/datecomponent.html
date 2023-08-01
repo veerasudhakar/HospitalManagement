@@ -1,0 +1,14 @@
+<template>
+    <select onchange={handleFilterChange}>
+        <option value="">All</option>
+        <option value="week">This Week</option>
+        <option value="month">This Month</option>
+    </select>
+    <button onclick={filterRecords}>Filter</button>
+
+    <ul>
+        <template for:each={records.data} for:item="record">
+            <li key={record.Id}>{record.Name}</li>
+        </template>
+    </ul>
+</template>
