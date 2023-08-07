@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Doctor's Contacts">
+        <template for:each={doctorContacts} for:item="contact">
+            <p key={contact.Id}>{contact.Name} - {contact.Email}</p>
+        </template>
+    </lightning-card>
+
+    <lightning-card title="Contact's Appointments">
+        <template for:each={contactAppointments} for:item="appointment">
+            <p key={appointment.Id}>{appointment.Name} - {appointment.Date__c} - {appointment.Description__c}</p>
+        </template>
+    </lightning-card>
+</template>

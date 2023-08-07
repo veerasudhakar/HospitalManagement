@@ -1,0 +1,37 @@
+<template>
+    <lightning-card title="Related Contacts and Appointments :">
+
+        <div class="slds-m-around_medium">
+      
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr>
+                        
+                        <th>Appointment Date</th>
+                        <th>Slot Time</th>
+                        <th>Appointment No</th>
+                        <th>Status</th>
+                        <th>Doctor</th>
+                        <th>Specilaty</th>
+                    </tr>
+                </thead>
+    
+                <tbody>
+                    <template for:each={appointmentData} for:item="record">
+                        <tr key={record.Id} >
+                            <td><a onclick={appointmentHandleClick}>{record.Appointment_Date__c}</a></td>
+                            <td>{record.SlotsAvailable__c}</td>
+                            <td>{record.Name}</td>
+                             <td>{record.Status__c}</td>
+                            <td>{record.Doctor__r.Name}</td>
+                            <td>{record.Doctor__r.Specialty__c}</td>
+                        </tr>
+                    </template>
+                </tbody>
+                
+            </table>
+            </div>
+           
+        
+    </lightning-card>
+</template>

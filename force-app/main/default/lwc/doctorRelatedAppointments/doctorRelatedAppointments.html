@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Related Contacts and Appointments :">
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                label="Filter By"
+                value={filterOption}
+                options={filterOptions}
+                onchange={handleFilterChange}
+            ></lightning-combobox>
+            <lightning-button label="Filter" onclick={filterAccounts}></lightning-button>
+            <lightning-button label="Clear Filter" onclick={clearFilter}></lightning-button>
+        </div> 
+        <div> 
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Appointment Date</th>
+                        <th>Slots Available</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={relatedData} for:item="record">
+                        <tr key={record.Id}>
+                            <td>{record.Contact__r.Name}</td>
+                            <td>{record.Contact__r.Email}</td>
+                            <td>{record.Appointment_Date__c}</td>
+                            <td>{record.SlotsAvailable__c}</td>
+                            <td>{record.Status__c}</td>
+                        </tr>
+                    </template>
+                </tbody>
+                
+            </table>
+        </div>
+   </lightning-card>
+</template>
