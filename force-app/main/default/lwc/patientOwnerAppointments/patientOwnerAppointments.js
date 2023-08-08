@@ -1,4 +1,4 @@
-import { LightningElement, wire, api } from 'lwc';
+import { LightningElement, wire, api,track } from 'lwc';
 import Id from '@salesforce/user/Id';
 import { getRecord } from 'lightning/uiRecordApi';
 import UserNameFIELD from '@salesforce/schema/User.Name';
@@ -21,6 +21,8 @@ export default class PatientOwnerAppointments extends LightningElement {
      currentUser;
     columns = COLUMNS;
     appointmentData = [];
+    recordIdForm=''
+    //defaultAppointmentData = [];
     //contactId
 
     @wire(getRecord, { recordId: Id, fields: [UserNameFIELD, userEmailFIELD, userId ]}) 
@@ -32,6 +34,15 @@ export default class PatientOwnerAppointments extends LightningElement {
         }
     }
 
+    // @wire(RelatedRecordsController, { userEmail: '$currentUser' })
+    // wiredRecords({ error, data }) {
+    //     if (data) {
+    //         this.defaultAppointmentData = data; // Store default data
+    //         this.appointmentData = data; // Display data on component load
+    //     } else if (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // }
     @wire(RelatedRecordsController, { userEmail: '$currentUser' })
     wiredRecords({ error, data }) {
         if (data) {
@@ -53,8 +64,48 @@ export default class PatientOwnerAppointments extends LightningElement {
     }
 
     appointmentHandleClick(event){
-        var rowIdofTable = this.template.querySelector('tr').key;
-        alert(rowIdofTable)
+        this.recordIdForm=event.currentTarget.dataset.recordid
+        console.log('this.recordIdForm',this.recordIdForm)
+        // var rowIdofTable = this.template.querySelector('tr').key;
+        // alert(rowIdofTable)
     }
+
+    @track searchCriteria = '';
+
+    handleSearchChange(event) {
+        this.searchCriteria = event.target.value;
+    }
+
+    // searchAppointments() {
+    //     // Call the server method with the search criteria
+    //     RelatedRecordsController({ userEmail: this.currentUser, searchCriteria: this.searchCriteria })
+    //         .then(result => {
+    //             this.appointmentData = result;
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //         });
+    // }
+    @wire(RelatedRecordsController, { userEmail:'$currentUser', searchCriteria: '$searchCriteria' })
+    searchrecords({data, error} ){
+        if (data) {
+            this.appointmentData = data
+          } else if (error) {
+              this.error = error ;
+          }
+
+    }
+  
+
+    clearSearch() {
+        this.searchCriteria = ''; // Clear the search criteria
+        // this.appointmentData = []; // Clear the displayed data
+        // this.refreshPage(); // Call method to refresh the page
+    }
+
+    // refreshPage() {
+    //     // Reload the component to display the original data
+    //     location.reload();
+    // }
 
 }
