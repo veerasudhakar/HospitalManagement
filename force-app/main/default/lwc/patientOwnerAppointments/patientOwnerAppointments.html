@@ -12,11 +12,10 @@
             <!-- <button class="slds-button slds-button_neutral" onclick={clearSearch}>Clear</button> -->
             <lightning-input type="text" value={searchCriteria} onchange={handleSearchChange} label="Search"></lightning-input>
         </div>
-        <lightning-layout multiple-rows>
-            <lightning-layout-item size="4">
-                
 
-
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+              <span>
                 <div class="slds-m-around_medium">
       
                     <table class="slds-table slds-table_cell-buffer slds-table_bordered">
@@ -47,11 +46,13 @@
                         
                     </table>
                     </div>
+              </span>
+            </div>
+            </div>
 
-                </lightning-layout-item>
-
-                <lightning-layout-item size="6">
-
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                  <span>
                     <lightning-record-view-form record-id={recordIdForm} object-api-name="Appointment__c">
                         <div class="slds-grid">
                             <div class="slds-col slds-size_1-of-2">
@@ -68,6 +69,22 @@
                             </div>
                         </div>
                     </lightning-record-view-form> 
+                  </span>
+                </div>
+                </div>
+
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="8">
+                
+
+
+                
+
+                </lightning-layout-item>
+
+                <lightning-layout-item size="6">
+
+                   
                 </lightning-layout-item>
                 </lightning-layout>
         
