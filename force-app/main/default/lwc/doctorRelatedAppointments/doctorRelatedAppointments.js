@@ -28,8 +28,11 @@ export default class DoctorRelatedAppointments extends LightningElement {
    @track filterCriteria = 'all';
    @track initialLoad = true; 
 
-@track relatedData;
+@track relatedData = [];
+@track unfilteredData = [];
+// @track filteredRelatedData = [];
   currentUserId
+  recordIdForm=''
 
  
 
@@ -57,32 +60,96 @@ export default class DoctorRelatedAppointments extends LightningElement {
         this.applyFilter();
     }
 
+   
+
     @wire(getRelatedData, { userId: '$currentUserId', filter: '$filterCriteria' })
-wiredRelatedData({ error, data }) {
-    if (data) {
-        this.relatedData = data;
-        if (this.initialLoad) {
-            this.initialLoad = false; // Set the flag to false after initial load
-        } else {
-            this.applyFilter(); // Apply filter when data is received or filter criteria changes
+    wiredRelatedData({ error, data }) {
+        if (data) {
+            this.unfilteredData = data; // Store the unfiltered data
+            this.relatedData = data;
+            if (this.initialLoad) {
+                this.initialLoad = false;
+            } else {
+                this.applyFilter();
+            }
+        } else if (error) {
+            // Handle error
         }
-        this.applyFilter(); // Apply filter when data is received or filter criteria changes
-    } else if (error) {
-        // Handle error
+    }
+
+// wiredRelatedData({ error, data }) {
+//     if (data) {
+//         this.relatedData = data;
+//         if (this.initialLoad) {
+//             this.initialLoad = false; // Set the flag to false after initial load
+//         } else {
+//             this.applyFilter(); // Apply filter when data is received or filter criteria changes
+//         }
+//         // this.applyFilter(); // Apply filter when data is received or filter criteria changes
+//     } else if (error) {
+//         // Handle error
+//     }
+// }
+
+@track searchCriteria = '';
+
+handleSearchChange(event) {
+    this.searchCriteria = event.target.value.toLowerCase();
+
+    if (this.searchCriteria === '' || this.searchCriteria === null) {
+        this.relatedData = this.unfilteredData;
+    } else {
+        this.applyFilter();
     }
 }
 
 
-// filterCriteria;
-//     @wire(getRelatedData, { userId: '$currentUserId' })
-//     wiredRelatedData({ error, data }) {
-//         if (data) {
-//             console.log('data',this.relatedData)
-//             this.relatedData = data;
-//         } else if (error) {
-//             // Handle error
-//         }
+
+applyFilter() {
+    if (this.unfilteredData && this.unfilteredData.length > 0) {
+        const filteredData = this.unfilteredData.filter(record => {
+            return (
+                record.Name.toLowerCase().includes(this.searchCriteria) ||
+                record.Status__c.toLowerCase().includes(this.searchCriteria) ||
+                (record.Contact__r && record.Contact__r.Name.toLowerCase().includes(this.searchCriteria))
+            );
+        });
+
+        this.relatedData = filteredData;
+    }
+}
+
+
+
+// handleSearchChange(event) {
+//     this.searchCriteria = event.target.value.toLowerCase();
+//     this.applyFilter(); // Call applyFilter to update the displayed data
+// }
+
+// applyFilter() {
+//     if (this.relatedData && this.relatedData.length > 0) {
+//         const filteredData = this.relatedData.filter(record => {
+//             return (
+//                 record.Name.toLowerCase().includes(this.searchCriteria) ||
+//                 record.Status__c.toLowerCase().includes(this.searchCriteria) ||
+//                 (record.Contact__r && record.Contact__r.Name.toLowerCase().includes(this.searchCriteria))
+//             );
+//         });
+
+//         this.relatedData = filteredData;
 //     }
+//     else{
+//         this.filteredRelatedData = this.relatedData;
+//     }
+// }
+
+
+appointmentHandleClick(event){
+    this.recordIdForm=event.currentTarget.dataset.recordid
+    console.log('this.recordIdForm',this.recordIdForm)
+    // var rowIdofTable = this.template.querySelector('tr').key;
+    // alert(rowIdofTable)
+}
 
 
 }
