@@ -20,8 +20,13 @@ const COLUMNS = [
 export default class PatientOwnerAppointments extends LightningElement {
      currentUser;
     columns = COLUMNS;
-    appointmentData = [];
+    @track appointmentData = [];
+   @track initialLoad = true; 
+
     recordIdForm=''
+
+    @track filterCriteria = 'all';
+   
     //defaultAppointmentData = [];
     //contactId
 
@@ -34,6 +39,11 @@ export default class PatientOwnerAppointments extends LightningElement {
         }
     }
 
+    handleFilterChange(event) {
+        this.filterCriteria = event.target.value;
+        this.applyFilter();
+    }
+
     // @wire(RelatedRecordsController, { userEmail: '$currentUser' })
     // wiredRecords({ error, data }) {
     //     if (data) {
@@ -43,25 +53,27 @@ export default class PatientOwnerAppointments extends LightningElement {
     //         console.error('Error fetching data:', error);
     //     }
     // }
-    @wire(RelatedRecordsController, { userEmail: '$currentUser' })
+    @wire(RelatedRecordsController, { userEmail: '$currentUser', filter: '$filterCriteria' })
     wiredRecords({ error, data }) {
         if (data) {
-            // this.data = data.map((record) => ({
-            //     ...record,
-            //     AppointmentName: record.Appointments__r ? record.Appointments__r[0].Name : '',
-            // }));
+            this.unfilteredData = data;
             this.appointmentData = data
             console.log('appData',data)
 
+            if (this.initialLoad) {
+                this.initialLoad = false;
+            } else {
+                this.applyFilter();
+            }
         } else if (error) {
             console.error('Error fetching data:', error);
         }
     }
 
-    handleRowAction(event) {
-        const contactId = event.detail.row.Id;
+    // handleRowAction(event) {
+    //     const contactId = event.detail.row.Id;
       
-    }
+    // }
 
     appointmentHandleClick(event){
         this.recordIdForm=event.currentTarget.dataset.recordid
@@ -73,8 +85,31 @@ export default class PatientOwnerAppointments extends LightningElement {
     @track searchCriteria = '';
 
     handleSearchChange(event) {
-        this.searchCriteria = event.target.value;
+        this.searchCriteria = event.target.value.toLowerCase();
+    
+        if (this.searchCriteria === '' || this.searchCriteria === null) {
+            this.relatedData = this.unfilteredData;
+        } else {
+            this.applyFilter();
+        }
     }
+    
+    
+    
+    applyFilter() {
+        if (this.unfilteredData && this.unfilteredData.length > 0) {
+            const filteredData = this.unfilteredData.filter(record => {
+                return (
+                    record.Name.toLowerCase().includes(this.searchCriteria) ||
+                    (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
+                    (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria))
+                );
+            });
+    
+            this.appointmentData = filteredData;
+        }
+    }
+   
 
     // searchAppointments() {
     //     // Call the server method with the search criteria
@@ -86,22 +121,22 @@ export default class PatientOwnerAppointments extends LightningElement {
     //             console.error('Error fetching data:', error);
     //         });
     // }
-    @wire(RelatedRecordsController, { userEmail:'$currentUser', searchCriteria: '$searchCriteria' })
-    searchrecords({data, error} ){
-        if (data) {
-            this.appointmentData = data
-          } else if (error) {
-              this.error = error ;
-          }
+    // @wire(RelatedRecordsController, { userEmail:'$currentUser', searchCriteria: '$searchCriteria' })
+    // searchrecords({data, error} ){
+    //     if (data) {
+    //         this.appointmentData = data
+    //       } else if (error) {
+    //           this.error = error ;
+    //       }
 
-    }
+    // }
   
 
-    clearSearch() {
-        this.searchCriteria = ''; // Clear the search criteria
-        // this.appointmentData = []; // Clear the displayed data
-        // this.refreshPage(); // Call method to refresh the page
-    }
+    // clearSearch() {
+    //     this.searchCriteria = ''; // Clear the search criteria
+    //     // this.appointmentData = []; // Clear the displayed data
+    //     // this.refreshPage(); // Call method to refresh the page
+    // }
 
     // refreshPage() {
     //     // Reload the component to display the original data
