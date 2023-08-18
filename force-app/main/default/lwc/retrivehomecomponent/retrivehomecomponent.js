@@ -1,7 +1,7 @@
 import { LightningElement, wire, track, api } from 'lwc';
 import doctorData from '@salesforce/apex/ShowDoctorData.retrieveDoctors';
 import getUserInfo from '@salesforce/apex/ShowDoctorData.getUserLoginStatus';
-import getAvailableSlots from '@salesforce/apex/Patient_Records.getAvailableSlots';
+import getAvailableSlots from '@salesforce/apex/myAppointment.getAvailableSlots';
 import insertAccountMethod from '@salesforce/apex/BookAppointment.myappointment';
 import userContactDetails from '@salesforce/apex/BookAppointment.userContactDetails';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';

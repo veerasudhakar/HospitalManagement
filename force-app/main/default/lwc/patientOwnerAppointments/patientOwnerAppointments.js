@@ -8,6 +8,9 @@ import userId from '@salesforce/schema/User.Id';
 import RelatedRecordsController from '@salesforce/apex/myAppointment.RelatedRecordsController';
 import getAvailableSlots from '@salesforce/apex/myAppointment.getAvailableSlots';
 import rescheduleAppointment from '@salesforce/apex/myAppointment.rescheduleAppointment';
+import cancelAppointment from '@salesforce/apex/myAppointment.cancelAppointment';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { refreshApex } from '@salesforce/apex';
 // import APPOINTMENT_DATE_FIELD from '@salesforce/schema/Appointment__c.Appointment_Date__c';
 // import STATUS_FIELD from '@salesforce/schema/Appointment__c.Status__c';
 
@@ -114,6 +117,29 @@ export default class PatientOwnerAppointments extends LightningElement {
         this.showModal = true;
     }
 
+    //Cancel Appointment
+
+    cancelAppointmentHandler(event) {
+        const appointmentId = event.currentTarget.dataset.recordid;
+    
+        // Call the Apex method to cancel the appointment
+        cancelAppointment({ appointmentId:appointmentId })
+            .then(() => {
+                console.log('Appointment canceled successfully');
+                refreshApex(this.resultData);
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                      title: 'Success',
+                      message: 'Appointment Cancelled Successfully',
+                      variant: 'success'
+                    })
+                  );
+                // You may want to refresh the data here
+            })
+            .catch(error => {
+                console.error('Error canceling appointment:', error);
+            });
+    }
     // handleDateChange(event) {
     //     this.newAppointmentDate = event.target.value;
     // }
@@ -129,6 +155,14 @@ export default class PatientOwnerAppointments extends LightningElement {
         this.showModal = false;
         rescheduleAppointment({appointmentId:this.recordIdForm,newAppointmentDate:this.selectedDate,newSlot:this.selectedSlot})
         .then(()=>{
+            refreshApex(this.resultData);
+            this.dispatchEvent(
+                new ShowToastEvent({
+                  title: 'Success',
+                  message: 'Appointment Rescheduled Successfully',
+                  variant: 'success'
+                })
+              );
             console.log('success')
             this.showModal = false;
         })
@@ -151,20 +185,39 @@ export default class PatientOwnerAppointments extends LightningElement {
     //         console.error('Error fetching data:', error);
     //     }
     // }
+
+    //BUttons for the Disable
+
+    isButtonDisabled(status) {
+        return status === 'Completed' || status === 'Cancelled';
+    }
+
+    resultData
+
     @wire(RelatedRecordsController, { userEmail: '$currentUser', filter: '$filterCriteria' })
-    wiredRecords({ error, data }) {
-        if (data) {
-            this.unfilteredData = data;
-            this.appointmentData = data
-            console.log('appData',data)
+    wiredRecords(result) {
+    this.resultData=result
+        if (result.data) {
+            this.unfilteredData = result.data.map(record => ({
+                ...record,
+                isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
+                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
+            }));
+            this.appointmentData = result.data.map(record => ({
+                ...record,
+                isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
+                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
+            }));
+           // this.appointmentData = data
+            console.log('appData',result.data)
 
             if (this.initialLoad) {
                 this.initialLoad = false;
             } else {
                 this.applyFilter();
             }
-        } else if (error) {
-            console.error('Error fetching data:', error);
+        } else if (result.error) {
+            console.error('Error fetching data:', result.error);
         }
     }
 

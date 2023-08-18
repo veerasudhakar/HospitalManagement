@@ -55,7 +55,10 @@
                                      <td>{record.Status__c}</td>
                                     <td>{record.Doctor__r.Name}</td>
                                     <td>{record.Doctor__r.Specialty__c}</td>
-                                    <td><lightning-button label="Reschedule" onclick={handleReschedule} value={record.Doctor__c} data-recordid={record.Id}></lightning-button></td>
+                                    <td><lightning-button label="Reschedule" onclick={handleReschedule} value={record.Doctor__c} data-recordid={record.Id} 
+                                        disabled={record.isRescheduleButtonDisabled}></lightning-button></td>
+                                    <td><lightning-button label="Cancel" onclick={cancelAppointmentHandler} data-recordid={record.Id}
+                                        disabled={record.isCancelButtonDisabled}></lightning-button></td>
                                 </tr>
                             </template>
                         </tbody>
