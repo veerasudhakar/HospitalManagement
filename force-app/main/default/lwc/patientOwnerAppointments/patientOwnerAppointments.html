@@ -34,6 +34,7 @@
                             <tr>
                                 
                                 <th>Appointment No</th>
+                                <!-- <th>Patient Mobile</th> -->
                                 <th>Slot Time</th>
                                 <th>Appointment Date</th>
                                 <th>Status</th>
@@ -43,14 +44,18 @@
                         </thead>
             
                         <tbody>
+                            
                             <template for:each={appointmentData} for:item="record">
                                 <tr key={record.Id} >
                                     <td><a onclick={appointmentHandleClick} data-recordid={record.Id}>{record.Name}</a></td>
+                                    <!-- <td>{record.Contact__r.Phone}</td> -->
                                     <td>{record.SlotsAvailable__c}</td>
+                                  
                                     <td>{record.Appointment_Date__c}</td>
                                      <td>{record.Status__c}</td>
                                     <td>{record.Doctor__r.Name}</td>
                                     <td>{record.Doctor__r.Specialty__c}</td>
+                                    <td><lightning-button label="Reschedule" onclick={handleReschedule} value={record.Doctor__c} data-recordid={record.Id}></lightning-button></td>
                                 </tr>
                             </template>
                         </tbody>
@@ -61,6 +66,15 @@
             </div>
             </div>
 
+            <!-- <template for:each={appointmentData} for:item="record">
+                <tr key={record.Id}>
+                   
+                    <td>
+                        <lightning-button label="Reschedule" variant="brand" onclick={handleRescheduleClick} data-recordid={record.Id}></lightning-button>
+                    </td>
+                </tr>
+            </template> -->
+            <!-- <c-appointment-reschedule-modal is-open={showModal} appointment-id={selectedAppointmentId} onreschedule={handleReschedule}></c-appointment-reschedule-modal> -->
             <div class="slds-grid slds-gutters">
                 <div class="slds-col">
                   <span>
@@ -98,6 +112,68 @@
                    
                 </lightning-layout-item>
                 </lightning-layout>
+                <div class="slds-modal slds-fade-in-open" if:true={showModal}>
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium">Reschedule Appointment</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item size="6">
+                                    <lightning-input
+                                            type="date"
+                                            label="Select Date"
+                                            value={selectedDate}
+                                            onchange={handleDateChange}
+                                            style="max-width: 90%;"
+                                            required
+                                            message={errorMsg}
+                                            ></lightning-input>
+                                </lightning-layout-item>
+                            
+                                <lightning-layout-item size="6">
+                                    <lightning-combobox
+                                            label="Available Slots"
+                                            options={availableSlots}
+                                            placeholder="Select a Slot"
+                                            onchange={handleSlotSelection}
+                                            style="max-width: 90%;"
+                                            required
+                                            >
+                                            </lightning-combobox>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            
+                            </div>
+                            
+                                    <!-- TOTAL INPUT FEILDS -->
+                            
+                                        <div class="slds-modal__footer" >
+                                        <lightning-button
+                                            variant="brand outline"
+                                            style="margin-left: 36%"
+                                            class="slds-p-around_small"
+                                            onclick={hideModalBox}
+                                            title="Cancel"
+                                            label="Cancel"
+                                        ></lightning-button>
+                                        <lightning-button
+                                            variant="brand"
+                                            label="Submit"
+                                            title="titleName"
+                                            onclick={confirmReschedule}
+                                        ></lightning-button>
+                                        <!-- <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button> -->
+                                        </div>
+                            <!-- ... Other input fields ... -->
+                        </div>
+                        <!-- <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick={cancelReschedule}>Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick={confirmReschedule}>Reschedule</button>
+                        </footer> -->
+                    </div>
+                </div>
+                <div class="slds-backdrop slds-backdrop_open" if:true={showModal}></div>
         
            
             

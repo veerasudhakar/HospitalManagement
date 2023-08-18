@@ -1,6 +1,8 @@
 import { LightningElement, wire, track } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+// import { loadStyle } from 'lightning/platformResourceLoader';
+// import STYLES from '@salesforce/resourceUrl/styles';
 import Id from '@salesforce/user/Id';
 import UserIDFIELD from '@salesforce/schema/User.Id';
 import getRelatedData from '@salesforce/apex/DoctorRelatedAppointments.getRelatedData';
@@ -89,6 +91,16 @@ export default class DoctorRelatedAppointments extends LightningElement {
 //     } else if (error) {
 //         // Handle error
 //     }
+// }
+
+// connectedCallback() {
+//     loadStyle(this, STYLES)
+//         .then(() => {
+//             console.log('Styles loaded successfully.');
+//         })
+//         .catch(error => {
+//             console.log('Error loading styles:', error);
+//         });
 // }
 
 @track searchCriteria = '';

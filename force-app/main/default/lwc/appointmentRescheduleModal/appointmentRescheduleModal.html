@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Reschedule Appointment" icon-name="standard:event">
+        <div class="slds-p-around_medium">
+            <lightning-input type="datetime-local" label="New Appointment Date and Time" value={newAppointmentDate} onchange={handleDateChange}></lightning-input>
+            <div class="slds-m-top_medium">
+                <lightning-button variant="brand" label="Reschedule" onclick={rescheduleAppointment}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

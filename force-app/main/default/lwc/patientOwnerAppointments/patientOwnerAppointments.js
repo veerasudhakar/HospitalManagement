@@ -4,11 +4,17 @@ import { getRecord } from 'lightning/uiRecordApi';
 import UserNameFIELD from '@salesforce/schema/User.Name';
 import userEmailFIELD from '@salesforce/schema/User.Email';
 import userId from '@salesforce/schema/User.Id';
+// import { updateRecord } from 'lightning/uiRecordApi';
 import RelatedRecordsController from '@salesforce/apex/myAppointment.RelatedRecordsController';
+import getAvailableSlots from '@salesforce/apex/myAppointment.getAvailableSlots';
+import rescheduleAppointment from '@salesforce/apex/myAppointment.rescheduleAppointment';
+// import APPOINTMENT_DATE_FIELD from '@salesforce/schema/Appointment__c.Appointment_Date__c';
+// import STATUS_FIELD from '@salesforce/schema/Appointment__c.Status__c';
 
 const COLUMNS = [
     { label: 'Contact Name', fieldName: 'Name', type: 'text' },
     { label: 'Email', fieldName: 'Email', type: 'email' },
+    // { label: 'Phone', fieldName: 'Phone', type: 'Phone' },
     { label: 'Gender', fieldName: 'Gender__c', type: 'text' },
     { label: 'Date of Birth', fieldName: 'Date_Of_Birth__c', type: 'date' },
     { label: 'Age', fieldName: 'Age__c', type: 'number' },
@@ -26,7 +32,7 @@ export default class PatientOwnerAppointments extends LightningElement {
     recordIdForm=''
 
     @track filterCriteria = 'all';
-   
+    availableSlots
     //defaultAppointmentData = [];
     //contactId
 
@@ -43,6 +49,95 @@ export default class PatientOwnerAppointments extends LightningElement {
         this.filterCriteria = event.target.value;
         this.applyFilter();
     }
+
+    //For The Slots and doctor id and Appointment Id
+     // for the selected date Functionality
+  handleDateChange(event) {
+    this.selectedDate = event.target.value;
+    //console.log('the doc id to pass' + this.doctorId);
+    //this.getSlots();
+    // Compare the selected date with the current date
+    const selectedDate = new Date(this.selectedDate);
+    //const currentDate = new Date(Today);
+
+    if (selectedDate < new Date().setHours(0, 0, 0, 0) && selectedDate.toDateString() !== new Date().toDateString()) {
+      this.availableSlots = ''
+      // Set an error message to display on the field
+      this.errorMsg = '';
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: 'Check appointment date',
+          message: 'Invalid appointment date please select the date from the current date forward',
+          variant: 'error'
+        })
+      );
+      console.log(this.errorMsg);
+      // alert('Dont choose date less than today');
+      // this.availableSlots = '';
+
+    } else {
+      this.errorMsg = ''; // Clear the error message if the selected date is valid
+      //this.doctorId = this.doctorId;
+
+      //console.log('doctor id was ' + this.doctorId);
+      this.getSlots();
+    }
+  }
+  selectedSlot;
+  handleSlotSelection(event) {
+    this.selectedSlot = event.target.value;
+    console.log('Selected time slot:', this.selectedSlot);
+  }
+
+  doctorIdap
+  getSlots() {
+    console.log('doc id ' + this.doctorIdap);
+    
+    getAvailableSlots({ selectedDate: this.selectedDate, doctorid: this.doctorIdap})
+      .then(result => {
+        console.log('slotsss....' + result);
+        this.availableSlots = result.map(slot => {
+          return { label: slot, value: slot };
+        });
+
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+
+    handleReschedule(event) {
+        const appointmentId = event.currentTarget.dataset.recordid;
+        this.recordIdForm = appointmentId;
+       this.doctorIdap=event.target.value
+        this.showModal = true;
+    }
+
+    // handleDateChange(event) {
+    //     this.newAppointmentDate = event.target.value;
+    // }
+
+    hideModalBox() {
+        this.showModal = false;
+        // this.newAppointmentDate = '';
+    }
+
+    confirmReschedule() {
+        rescheduleAppointment({appointmentId:this.recordIdForm,newAppointmentDate:this.selectedDate,newSlot:this.selectedSlot})
+        .then(()=>{
+            console.log('success')
+            this.showModal = false;
+        })
+        .catch(error=>{
+            console.log(error)
+        })
+       
+        // this.newAppointmentDate = '';
+       
+    }
+
+    
 
     // @wire(RelatedRecordsController, { userEmail: '$currentUser' })
     // wiredRecords({ error, data }) {
@@ -101,15 +196,36 @@ export default class PatientOwnerAppointments extends LightningElement {
             const filteredData = this.unfilteredData.filter(record => {
                 return (
                     record.Name.toLowerCase().includes(this.searchCriteria) ||
+                    (record.Status__c.toLowerCase().includes(this.searchCriteria)) ||
                     (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
                     (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria))
+                   
                 );
             });
     
             this.appointmentData = filteredData;
         }
     }
-   
+
+    // @wire(RescrescheduleAppointment, { appointmentId: '$selectedAppointmentId', newAppointmentDate: '$newAppointmentDate' })
+    // rescheduleResult({ error, data }) {
+    //     if (data) {
+    //         // Handle successful rescheduling, maybe refresh data or show a success message
+    //         this.showModal = false;
+    //         this.selectedAppointmentId = null;
+    //         this.newAppointmentDate = null;
+    //     } else if (error) {
+    //         // Handle error, maybe show an error message
+    //     }
+    // }
+
+    // handleReschedule(event) {
+    //     const appointmentId = event.detail.appointmentId;
+    //     const newAppointmentDate = event.detail.newAppointmentDate;
+
+    //     this.selectedAppointmentId = appointmentId;
+    //     this.newAppointmentDate = newAppointmentDate;
+    // }
 
     // searchAppointments() {
     //     // Call the server method with the search criteria

@@ -1,9 +1,9 @@
 <template>
 
-    <lightning-card title="Related Contacts and Appointments :">
+    <lightning-card title="Doctor Related Patients">
 
         <div>
-            <label for="filter">Filter By:</label>
+            <label for="filter">Filter By : </label>
             <select id="filter" onchange={handleFilterChange}>
                 <option value="All">All</option>
                 <option value="today">Today</option>
@@ -13,7 +13,7 @@
         </div>
 
         <div class="slds-m-aroud_medium">
-            <lightning-input type="text" value={searchCriteria} onchange={handleSearchChange} label="Search"></lightning-input>
+            <lightning-input style="width: 1200px; margin-left: 40px;" type="text" value={searchCriteria} onchange={handleSearchChange} placeholder="search"></lightning-input>
         </div>
 
         
@@ -47,8 +47,9 @@
                 <tbody>
 
                     <template for:each={relatedData} for:item="record">
-
-                        <tr key={record.Id}>
+                      
+                        
+                        <tr key={record.Id}> 
 
                             <td><a onclick={appointmentHandleClick} data-recordid={record.Id}>{record.Name}</a></td>
 
@@ -63,7 +64,7 @@
                             <td>{record.Status__c}</td>
 
                         </tr>
-
+                   
                     </template>
 
                 </tbody>
