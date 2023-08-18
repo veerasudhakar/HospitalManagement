@@ -118,12 +118,15 @@ export default class PatientOwnerAppointments extends LightningElement {
     //     this.newAppointmentDate = event.target.value;
     // }
 
+    @track showModal = false;
+
     hideModalBox() {
         this.showModal = false;
         // this.newAppointmentDate = '';
     }
 
     confirmReschedule() {
+        this.showModal = false;
         rescheduleAppointment({appointmentId:this.recordIdForm,newAppointmentDate:this.selectedDate,newSlot:this.selectedSlot})
         .then(()=>{
             console.log('success')
@@ -194,18 +197,35 @@ export default class PatientOwnerAppointments extends LightningElement {
     applyFilter() {
         if (this.unfilteredData && this.unfilteredData.length > 0) {
             const filteredData = this.unfilteredData.filter(record => {
+                const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
                 return (
                     record.Name.toLowerCase().includes(this.searchCriteria) ||
-                    (record.Status__c.toLowerCase().includes(this.searchCriteria)) ||
+                    lowerCaseStatus.includes(this.searchCriteria) ||
                     (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
                     (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria))
-                   
                 );
             });
     
             this.appointmentData = filteredData;
         }
     }
+    
+    
+    // applyFilter() {
+    //     if (this.unfilteredData && this.unfilteredData.length > 0) {
+    //         const filteredData = this.unfilteredData.filter(record => {
+    //             return (
+    //                 record.Name.toLowerCase().includes(this.searchCriteria) ||
+    //                 (record.Status__c.toLowerCase().includes(this.searchCriteria)) ||
+    //                 (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
+    //                 (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria))
+                   
+    //             );
+    //         });
+    
+    //         this.appointmentData = filteredData;
+    //     }
+    // }
 
     // @wire(RescrescheduleAppointment, { appointmentId: '$selectedAppointmentId', newAppointmentDate: '$newAppointmentDate' })
     // rescheduleResult({ error, data }) {
