@@ -2,6 +2,7 @@ public class BookAppointment {
     
     @AuraEnabled
     public static Appointment__c myappointment(Appointment__c patientObj,Contact contactUpdate){
+        //Book Appointment Data
         system.debug('the appointment is '+ patientObj);
         //Contact c=[Select Id,Name,Email from Contact where Email=:UserInfo.getUserEmail() limit 1];
         //Contact c=[Select Id,Name,Email from Contact where Email=:loginUser limit 1];

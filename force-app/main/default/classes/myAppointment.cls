@@ -132,7 +132,7 @@ public with sharing class myAppointment {
         }
         database.update(updateAppointment);
     }
-    
+    //This is Veera Sudhakar Cancel Appointment
    @AuraEnabled
     public static void cancelAppointment(Id appointmentId) {
         List<Appointment__c> appointmentsToUpdate = new List<Appointment__c>();

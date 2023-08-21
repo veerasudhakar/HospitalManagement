@@ -4,6 +4,7 @@ public class DoctorInfo {
         List<Doctor__c> doctors = new List<Doctor__c>();
         
         try {
+            //This is show the doctor Data
             // Perform a null check on recordId before querying the database
             if (recordId != null && recordId.trim() != '') {
                 doctors = [SELECT Id, Name, Image_Url__c, Specialty__c,Location__c,Languages_Known__c,Biograph__c 

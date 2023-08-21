@@ -1,6 +1,6 @@
 public class DoctorRelatedAppointments {
    @AuraEnabled(cacheable=true)
-    
+    //
      public static List<Appointment__c> getRelatedData(Id userId, String filter) {
     List<Appointment__c> appointments;
     if (filter == 'all') {
@@ -62,7 +62,7 @@ public class DoctorRelatedAppointments {
 
     return appointments;
 }
-
+//This is Sudhakar Filter Condition
     */
     @AuraEnabled
 

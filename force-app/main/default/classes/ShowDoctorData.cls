@@ -2,7 +2,7 @@ public with sharing class ShowDoctorData {
 
     @AuraEnabled(cacheable=true)
     public static List<Doctor__c> retrieveDoctors(String doctortext,String specilaty,String location){
-        
+        //Show the Doctor Data
         String query = 'SELECT Id, Name, Location__c, Email__c, Specialty__c, DoctorId__c,Languages_Known__c,Image_Url__c,Description__c, Experience__c FROM Doctor__c';
         if(doctortext !='' || specilaty !='' || location!=''){
            query+=' WHERE ';
