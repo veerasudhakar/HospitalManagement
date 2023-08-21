@@ -66,7 +66,7 @@ public class Patient_Records {
             }
         }
         
-        
+        //For the Booking Appointments
         //availableSlots.removeAll(slotsToRemove);
         system.debug('Available slots are  '+slotsToRemove);
         
