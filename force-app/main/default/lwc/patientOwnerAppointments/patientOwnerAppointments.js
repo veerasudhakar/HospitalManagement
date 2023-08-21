@@ -200,14 +200,15 @@ export default class PatientOwnerAppointments extends LightningElement {
         if (result.data) {
             this.unfilteredData = result.data.map(record => ({
                 ...record,
-                isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
-                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
+                isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c) || record.Appointment_Date__c < new Date().toISOString().split('T')[0],
+                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c) || record.Appointment_Date__c < new Date().toISOString().split('T')[0]
             }));
             this.appointmentData = result.data.map(record => ({
                 ...record,
                 isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
                 isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
             }));
+            this.appointmentData = [...this.unfilteredData];
            // this.appointmentData = data
             console.log('appData',result.data)
 
@@ -220,6 +221,8 @@ export default class PatientOwnerAppointments extends LightningElement {
             console.error('Error fetching data:', result.error);
         }
     }
+
+    
 
     // handleRowAction(event) {
     //     const contactId = event.detail.row.Id;
@@ -249,6 +252,7 @@ export default class PatientOwnerAppointments extends LightningElement {
     
     applyFilter() {
         if (this.unfilteredData && this.unfilteredData.length > 0) {
+            refreshApex(this.unfilteredData);
             const filteredData = this.unfilteredData.filter(record => {
                 const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
                 return (
@@ -261,7 +265,33 @@ export default class PatientOwnerAppointments extends LightningElement {
     
             this.appointmentData = filteredData;
         }
+//This is the Date Filter Functionality 
+
+        // if (this.unfilteredData && this.unfilteredData.length > 0) {
+        //     refreshApex(this.unfilteredData);
+        //     let filteredData = this.unfilteredData;
+
+        //     if (this.filterCriteria === 'today') {
+        //         const today = new Date().toISOString().split('T')[0];
+        //         filteredData = filteredData.filter(record => {
+        //             return record.Appointment_Date__c === today && !this.isButtonDisabled(record.Status__c);
+        //         });
+        //     } else if (this.filterCriteria === 'week') {
+        //         const today = new Date();
+        //         const startOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+        //         const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (6 - today.getDay()));
+        //         filteredData = filteredData.filter(record => {
+        //             const appointmentDate = new Date(record.Appointment_Date__c);
+        //             return appointmentDate >= startOfWeek && appointmentDate <= endOfWeek && !this.isButtonDisabled(record.Status__c);
+        //         });
+        //     } else {
+        //         filteredData = filteredData.filter(record => !this.isButtonDisabled(record.Status__c));
+        //     }
+
+        //     this.appointmentData = filteredData;
+        // }
     }
+    
     
     
     // applyFilter() {

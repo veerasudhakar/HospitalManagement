@@ -64,6 +64,16 @@ public class DoctorRelatedAppointments {
 }
 
     */
-    
-        
+    @AuraEnabled
+
+    public static void deleteAccounts(List<Id> accountIds) {
+
+        List<Appointment__c> accountsToDelete = [SELECT Id, Name, Doctor__c, Appointment_Date__c, SlotsAvailable__c, Status__c,
+        Doctor__r.Name, Doctor__r.Email__c, Doctor__r.user__c, Contact__r.Name,Contact__r.Gender__c, Contact__r.Email,Contact__r.Age__c,Contact__r.Date_Of_Birth__c
+        FROM Appointment__c WHERE Id IN :accountIds];
+
+        delete accountsToDelete;
+
     }
+        
+}
