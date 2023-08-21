@@ -228,13 +228,21 @@ export default class PatientOwnerAppointments extends LightningElement {
     //     const contactId = event.detail.row.Id;
       
     // }
+    @track showDoctorField = false; // New variable to track the visibility of the Doctor field
+    @track selectedDoctor = '';
 
     appointmentHandleClick(event){
         this.recordIdForm=event.currentTarget.dataset.recordid
         console.log('this.recordIdForm',this.recordIdForm)
         // var rowIdofTable = this.template.querySelector('tr').key;
         // alert(rowIdofTable)
+        this.showDoctorField = true;
+        this.selectedDoctor = event.target.dataset.doctorname;
+        
     }
+
+    
+    
 
     @track searchCriteria = '';
 

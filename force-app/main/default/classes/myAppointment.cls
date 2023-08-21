@@ -139,7 +139,7 @@ public with sharing class myAppointment {
         //List<Shifttimings__c> shiftTimingsToUpdate = new List<Shifttimings__c>();
 
         for (Appointment__c appointment : [SELECT Id, Status__c, SlotsAvailable__c, Doctor__c FROM Appointment__c WHERE Id = :appointmentId]) {
-              if (appointment.Appointment_Date__c >= Date.today()) {
+              
             appointment.Status__c = 'Cancelled'; 
             appointmentsToUpdate.add(appointment);
 
@@ -223,5 +223,4 @@ public with sharing class myAppointment {
         }
     }
 */
-}
 }
