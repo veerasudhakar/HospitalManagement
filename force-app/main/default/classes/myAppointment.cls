@@ -1,8 +1,7 @@
 public with sharing class myAppointment {
-     
     
+
     @AuraEnabled(cacheable=true)
-    
      public static List<Appointment__c> RelatedRecordsController(string userEmail, String filter) {
     List<Appointment__c> appointments;
     if (filter == 'all') {
@@ -32,6 +31,48 @@ public with sharing class myAppointment {
 
     return appointments;
 }
+    /*
+     @AuraEnabled(cacheable=true)
+    public static List<Appointment__c> RelatedRecordsController(string userEmail, Date selectedDate) {
+    List<Appointment__c> appointments;
+
+    appointments = [SELECT Name, Appointment_Date__c, Doctor__r.Specialty__c, Doctor__r.Name, Contact__c, Contact__r.Name, Contact__r.Email, Contact__r.Phone, SlotsAvailable__c, Status__c 
+                    FROM Appointment__c 
+                    WHERE Contact__r.Email = :userEmail AND Appointment_Date__c = :selectedDate];
+
+    return appointments;
+}
+*/
+    /*
+    @AuraEnabled(cacheable=true)
+    
+     public static List<Appointment__c> RelatedRecordsController(string userEmail, Date selectDate) {
+    List<Appointment__c> appointments;
+         system.debug('');
+          Date selectedDate = Date.valueOf(selectDate); // Convert the string to Date
+  
+         if(userEmail!=''&& userEmail != null){
+             system.debug('userEmail'+userEmail);
+              appointments = [SELECT Name, Appointment_Date__c, Doctor__r.Specialty__c, Doctor__r.Name, Contact__c, Contact__r.Name, Contact__r.Email, SlotsAvailable__c, Status__c 
+FROM Appointment__c WHERE Contact__r.Email = :userEmail ];
+         }else if(selectDate != null){
+             system.debug('date'+selectDate);
+            List<Appointment__c> clist = new List<Appointment__c>([
+        SELECT Name, Doctor__c, Appointment_Date__c, SlotsAvailable__c, Status__c,
+            Doctor__r.Name, Doctor__r.Email__c, Doctor__r.user__c, Doctor__r.Specialty__c, 
+            Contact__r.Name, Contact__r.Gender__c, Contact__r.Email, Contact__r.Age__c,
+            Contact__r.Date_Of_Birth__c
+        FROM Appointment__c
+        WHERE Appointment_Date__c = :selectDate 
+    ]);  
+         }else{
+              appointments = [SELECT Name, Appointment_Date__c, Doctor__r.Specialty__c,Doctor__r.Name, Contact__c, Contact__r.Name,Contact__r.Email,Contact__r.Phone, SlotsAvailable__c,Status__c 
+        FROM Appointment__c];
+         }
+       
+    return appointments;
+}
+*/
     
        @AuraEnabled(cacheable=true)
     public static List<String> getAvailableSlots( String selectedDate, string doctorid) {
@@ -116,31 +157,42 @@ public with sharing class myAppointment {
         database.update(updateAppointment);
     }
     //This is Veera Sudhakar Cancel Appointment
+     @AuraEnabled
+    public static void cancelAppointment(Id appointmentId) {
+    List<Appointment__c> appointmentsToUpdate = new List<Appointment__c>();
+    for (Appointment__c appointment : [SELECT Id, Status__c, SlotsAvailable__c, Doctor__c, Appointment_Date__c FROM Appointment__c WHERE Id = :appointmentId]) {
+        if (appointment.Appointment_Date__c >= Date.today()) {
+            appointment.Status__c = 'Cancelled'; 
+            appointmentsToUpdate.add(appointment);
+        }
+    }
+
+    if (!appointmentsToUpdate.isEmpty()) {
+        update appointmentsToUpdate;
+    }
+}
+   
+    /*
    @AuraEnabled
     public static void cancelAppointment(Id appointmentId) {
         List<Appointment__c> appointmentsToUpdate = new List<Appointment__c>();
-        //List<Shifttimings__c> shiftTimingsToUpdate = new List<Shifttimings__c>();
+       
 
         for (Appointment__c appointment : [SELECT Id, Status__c, SlotsAvailable__c, Doctor__c FROM Appointment__c WHERE Id = :appointmentId]) {
-              
+              if (appointment.Appointment_Date__c >= Date.today()) {
             appointment.Status__c = 'Cancelled'; 
             appointmentsToUpdate.add(appointment);
 
-          /* if (appointment.SlotsAvailable__c != null) {
-                // Enable the doctor's slot if applicable
-                shiftTimingsToUpdate.add(new Shifttimings__c(Id = appointment.SlotsAvailable__c));
-            }*/
+        
+              }
              
         }
 
         if (!appointmentsToUpdate.isEmpty()) {
             update appointmentsToUpdate;
         }
-
-        /*if (!shiftTimingsToUpdate.isEmpty()) {
-            update shiftTimingsToUpdate;
-        }*/
     }
+*/
 
     /*
      @AuraEnabled
