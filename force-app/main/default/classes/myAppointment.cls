@@ -1,22 +1,5 @@
 public with sharing class myAppointment {
-      /*
-    @AuraEnabled(cacheable=true)
-    public static List<Appointment__c> RelatedRecordsController(String userEmail, String searchCriteria) {
-        
-        if(searchCriteria !='' && searchCriteria !=null){
-             String searchTerm = '%' + searchCriteria + '%';
-            return [SELECT Name, Appointment_Date__c, Doctor__r.Specialty__c,Doctor__r.Name, Contact__c, Contact__r.Name,Contact__r.Email, SlotsAvailable__c,Status__c 
-        FROM Appointment__c WHERE Contact__r.Email = :userEmail AND (Name LIKE :searchTerm OR Doctor__r.Name LIKE :searchTerm OR Doctor__r.Specialty__c LIKE :searchTerm OR Status__c LIKE :searchTerm)];
-
-        }
-       
-        system.debug('OwnerId->'+userEmail);
-       
-        return [SELECT Name, Appointment_Date__c, Doctor__r.Specialty__c,Doctor__r.Name, Contact__c, Contact__r.Name,Contact__r.Email, SlotsAvailable__c,Status__c 
-        FROM Appointment__c WHERE Contact__r.Email = :userEmail];
-
-}
-*/
+     
     
     @AuraEnabled(cacheable=true)
     

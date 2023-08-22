@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Appointment List">
+        <lightning-datatable
+            key-field="Id"
+            data={appointments}
+            columns={columns}
+            hide-checkbox-column="true">
+        </lightning-datatable>
+    </lightning-card>
+</template>

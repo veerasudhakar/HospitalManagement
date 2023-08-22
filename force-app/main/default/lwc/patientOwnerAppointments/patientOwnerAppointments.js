@@ -53,6 +53,44 @@ export default class PatientOwnerAppointments extends LightningElement {
         this.applyFilter();
     }
 
+    //For the Date Functionality
+    
+    unfilteredData = [];
+    @track selectedFilterDate = '';
+
+    handleDateFilterChange(event) {
+        this.selectedFilterDate = event.target.value;
+        this.applyDateFilter();
+        console.log('this.selectedFilterDate', this.selectedFilterDate);
+      //   if (this.selectedFilterDate === '' || this.selectedFilterDate === null) {
+      //     this.appointmentData = this.unfilteredData;
+      // } else {
+      //     this.applyDateFilter();
+      // }
+      
+    }
+
+    applyDateFilter() {
+        if (!this.selectedFilterDate) {
+            // If no filter date is selected, show all records
+            this.appointmentData = [...this.unfilteredData];
+        } else {
+            // Filter records based on the selected date
+            this.appointmentData = this.unfilteredData.filter(record => {
+                return record.Appointment_Date__c === this.selectedFilterDate;
+            });
+        }
+      
+    }
+
+    clearDateFilter() {
+      // Clear the selected date and show all records
+      this.selectedFilterDate = '';
+        this.appointmentData = [...this.unfilteredData];
+  }
+
+    //clear the Date filter
+    
     //For The Slots and doctor id and Appointment Id
      // for the selected date Functionality
   handleDateChange(event) {
