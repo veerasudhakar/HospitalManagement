@@ -158,11 +158,13 @@ FROM Appointment__c WHERE Contact__r.Email = :userEmail ];
     }
     //This is Veera Sudhakar Cancel Appointment
      @AuraEnabled
-    public static void cancelAppointment(Id appointmentId) {
+    public static void cancelAppointment(Id appointmentId,String reason, String others) {
     List<Appointment__c> appointmentsToUpdate = new List<Appointment__c>();
-    for (Appointment__c appointment : [SELECT Id, Status__c, SlotsAvailable__c, Doctor__c, Appointment_Date__c FROM Appointment__c WHERE Id = :appointmentId]) {
+    for (Appointment__c appointment : [SELECT Id, Status__c, SlotsAvailable__c, Doctor__c,Reason__c, Others__c, Appointment_Date__c FROM Appointment__c WHERE Id = :appointmentId]) {
         if (appointment.Appointment_Date__c >= Date.today()) {
             appointment.Status__c = 'Cancelled'; 
+             appointment.Reason__c = reason;
+            appointment.Others__c = others;
             appointmentsToUpdate.add(appointment);
         }
     }
