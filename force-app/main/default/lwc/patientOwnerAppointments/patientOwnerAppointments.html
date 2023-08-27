@@ -1,8 +1,8 @@
 <template>
-    <lightning-card title="Related Contacts and Appointments :">
+    <lightning-card title="Patient Appointments :">
 
 
-        <div>
+        <!-- <div>
             <label for="filter">Filter By:</label>
             <select id="filter" onchange={handleFilterChange}>
                 <option value="All">All</option>
@@ -10,20 +10,32 @@
                 <option value="week">This Week</option>
                 <option value="month">This Month</option>
             </select>
-        </div>
-        <div class="slds-m-around_medium">
-        <lightning-input
-    type="date"
-    label="Select Date"
-    value={selectedFilterDate}
-    onchange={handleDateFilterChange}
-></lightning-input>
+        </div> -->
 
-<lightning-button label="Clear" onclick={clearDateFilter}></lightning-button>
-    </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-m-around_medium">
+                    <lightning-input
+                type="date"
+                label="Select Date"
+                value={selectedFilterDate}
+                onchange={handleDateFilterChange}
+            ></lightning-input>
+            
+            <lightning-button label="Clear" onclick={clearDateFilter}></lightning-button>
+                </div>
+            </div>
+            <div class="slds-col slds-size_2-of-3">
+                <div class="slds-m-around_medium">
+           
+                    <lightning-input type="text" value={searchCriteria} onchange={handleSearchChange} label="Search"></lightning-input>
+                </div>
+            </div>
+          </div>
         
-        <div class="slds-m-around_medium">
-            <!-- <div class="slds-form-element">
+        
+        
+         <!-- <div class="slds-form-element">
                 <label class="slds-form-element__label" for="searchInput">Search:</label>
                 <div class="slds-form-element__control">
                     <input type="text" id="searchInput" onchange={handleSearchChange} />
@@ -31,8 +43,6 @@
             </div> -->
             <!-- <button class="slds-button slds-button_neutral" onclick={searchAppointments}>Search</button> -->
             <!-- <button class="slds-button slds-button_neutral" onclick={clearSearch}>Clear</button> -->
-            <lightning-input type="text" value={searchCriteria} onchange={handleSearchChange} label="Search"></lightning-input>
-        </div>
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col">
@@ -67,8 +77,18 @@
                                     <td>{record.Doctor__r.Specialty__c}</td>
                                     <td><lightning-button label="Reschedule" onclick={handleReschedule} value={record.Doctor__c} data-recordid={record.Id} 
                                         disabled={record.isRescheduleButtonDisabled}></lightning-button></td>
-                                    <td><lightning-button label="Cancel" onclick={cancelAppointmentHandler} data-recordid={record.Id}
-                                        disabled={record.isCancelButtonDisabled}></lightning-button></td>
+                                        <td>
+                                            <lightning-button
+                                                label="Cancel"
+                                                onclick={handleCancelAppointment}
+                                                data-recordid={record.Id}
+                                                disabled={record.isCancelButtonDisabled}
+                                            ></lightning-button>
+                                        </td>
+                                   
+                                    <!-- <td><lightning-button label="Cancel" onclick={cancelAppointmentHandler} data-recordid={record.Id}
+                                        disabled={record.isCancelButtonDisabled}></lightning-button></td> -->
+                                 
                                 </tr>
                             </template>
                         </tbody>
@@ -95,7 +115,7 @@
                         <div class="slds-grid">
                             <div class="slds-col slds-size_1-of-2">
                                 <lightning-output-field field-name="Name"></lightning-output-field>
-                                <lightning-output-field field-name="Doctor__c" record-id={recordIdForm} value={selectedDoctor} disabled></lightning-output-field>
+                                <lightning-output-field field-name="Doctor__c" record-id={recordIdForm} read-only></lightning-output-field>
                                 <!-- <lightning-output-field field-name="SlotsAvailable__c"></lightning-output-field> -->
                                 
                                 
@@ -125,7 +145,7 @@
                    
                 </lightning-layout-item>
                 </lightning-layout>
-                <div class="slds-modal slds-fade-in-open" if:true={showModal}>
+                <div class="slds-modal slds-fade-in-open" style="opacity: 100%;background-color: #00000085;" if:true={showModal}>
                     <div class="slds-modal__container">
                         <header class="slds-modal__header">
                             <h2 class="slds-text-heading_medium">Reschedule Appointment</h2>
@@ -185,8 +205,44 @@
                             <button class="slds-button slds-button_brand" onclick={confirmReschedule}>Reschedule</button>
                         </footer> -->
                     </div>
-                
-                <div class="slds-backdrop slds-backdrop_open" if:true={showModal}></div>
+
+
+                    <!--Cancel Appointmnet Modal-->
+
+                    <div class="slds-modal slds-fade-in-open" style="opacity: 100%;background-color: #00000085;" if:true={showCancelModal}>
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 class="slds-text-heading_medium">Cancel Appointment</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                                <!-- <lightning-input
+                                    label="Reason"
+                                    type="text"
+                                    value={cancelReason}
+                                    onchange={handleCancelReasonChange}
+                                ></lightning-input> -->
+
+                                <lightning-combobox
+                                name="cancelReason"
+                                label="reason"
+                                value={value}
+                                placeholder="Appointmnet"
+                                options={options}
+                                onchange={handleCancelReasonChange}></lightning-combobox>
+
+                                <lightning-input
+                                    label="Other Details"
+                                    type="text"
+                                    value={cancelOthers}
+                                    onchange={handleCancelOthersChange}
+                                ></lightning-input>
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <button class="slds-button slds-button_neutral" onclick={hideCancelModal}>Cancel</button>
+                                <button class="slds-button slds-button_brand" onclick={confirmCancellation}>Submit</button>
+                            </footer>
+                        </div>
+                    </div>
         
            
             

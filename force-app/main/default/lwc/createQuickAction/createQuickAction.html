@@ -1,0 +1,20 @@
+<template>
+    <lightning-quick-action-panel header="Task Manager">
+        <c-todo-list-example> lwc:ref="createTodo" traget-parent={isAction}</c-todo-list-example>
+        <div slot="footer">
+            <lightning-button variant="success"
+             label="Success"
+               onclick={handleClick} 
+               class="slds-m-left_x-small">
+            </lightning-button>
+
+            <lightning-button variant="brand" 
+            label="Canel"
+              onclick={closeAction}
+               class="slds-m-left_x-small">
+            </lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+   
+    
+</template>

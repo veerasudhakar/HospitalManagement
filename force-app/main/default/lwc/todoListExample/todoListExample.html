@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Dynamic Render Example">
+        <lightning-input type="text" name="TaskTitle" 
+        label="Task Title"
+         value={taskTitle} 
+         onchange={inputchange}
+          required>
+        </lightning-input>
+        <template lwc:if={showdate}>
+        <lightning-input type="date" 
+        name="DueDate" 
+        label="Due Date" 
+        value={dueDate} 
+        onchange={inputchange} 
+        required>
+    </lightning-input>
+    </template>
+        <br/>
+<template lwc:if={showbutton}>
+        <lightning-button variant="success" 
+        label="Save" 
+        title="Save" 
+        onclick={handleClick} 
+        class="slds-m-left_x-small makeItTransperant">
+    </lightning-button>
+</template>
+    </lightning-card>
+</template>

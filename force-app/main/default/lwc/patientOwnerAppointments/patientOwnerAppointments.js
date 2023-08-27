@@ -155,33 +155,6 @@ export default class PatientOwnerAppointments extends LightningElement {
         this.showModal = true;
     }
 
-    //Cancel Appointment
-
-    cancelAppointmentHandler(event) {
-        const appointmentId = event.currentTarget.dataset.recordid;
-    
-        // Call the Apex method to cancel the appointment
-        cancelAppointment({ appointmentId:appointmentId })
-            .then(() => {
-                console.log('Appointment canceled successfully');
-                refreshApex(this.resultData);
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                      title: 'Success',
-                      message: 'Appointment Cancelled Successfully',
-                      variant: 'success'
-                    })
-                  );
-                // You may want to refresh the data here
-            })
-            .catch(error => {
-                console.error('Error canceling appointment:', error);
-            });
-    }
-    // handleDateChange(event) {
-    //     this.newAppointmentDate = event.target.value;
-    // }
-
     @track showModal = false;
 
     hideModalBox() {
@@ -208,9 +181,101 @@ export default class PatientOwnerAppointments extends LightningElement {
             console.log(error)
         })
        
-        // this.newAppointmentDate = '';
-       
     }
+
+    //Cancel Appointment
+    @track showCancelModal = false;
+    // @track cancelReason = '';
+    @track cancelOthers = '';
+
+    
+
+    handleCancelAppointment(event) {
+      const appointmentId = event.currentTarget.dataset.recordid;
+      this.recordIdForm = appointmentId;
+      this.showCancelModal = true;
+  }
+
+  value = 'Forgetting about the appointment';
+
+  get options() {
+    return [
+        { label: 'Forgetting about the appointment', value: 'Forgetting about the appointment' },
+        { label: 'Work-related issues', value: 'Work-related issues' },
+        { label: 'Not notified about the appointment', value: 'Not notified about the appointment' },
+        { label: 'Transportation', value: 'Transportation' },
+    ];
+}
+
+handleCancelReasonChange(event) {
+    this.value = event.target.value;
+    console.log(event.target.value);
+}
+
+handleCancelOthersChange(event) {
+    this.cancelOthers = event.target.value;
+}
+
+hideCancelModal() {
+    this.showCancelModal = false;
+    this.cancelReason = '';
+    this.cancelOthers = '';
+}
+
+confirmCancellation() {
+    // Call the Apex method to cancel the appointment with reason and other details
+    cancelAppointment({
+        appointmentId: this.recordIdForm,
+        reason: this.value,
+        others: this.cancelOthers
+    })
+    .then(() => {
+        console.log('Appointment canceled successfully');
+        refreshApex(this.resultData);
+        // Display a success toast
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: 'Success',
+                message: 'Appointment Cancelled Successfully',
+                variant: 'success'
+            })
+        );
+       this.showCancelModal = false;
+    })
+    .catch(error => {
+        console.error('Error canceling appointment:', error);
+        // Display an error toast
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: 'Error',
+                message: 'An error occurred while canceling the appointment.',
+                variant: 'error'
+            })
+        );
+    });
+}
+    // cancelAppointmentHandler(event) {
+    //     const appointmentId = event.currentTarget.dataset.recordid;
+    
+        
+    //     cancelAppointment({ appointmentId:appointmentId })
+    //         .then(() => {
+    //             console.log('Appointment canceled successfully');
+    //             refreshApex(this.resultData);
+    //             this.dispatchEvent(
+    //                 new ShowToastEvent({
+    //                   title: 'Success',
+    //                   message: 'Appointment Cancelled Successfully',
+    //                   variant: 'success'
+    //                 })
+    //               );
+                
+    //         })
+    //         .catch(error => {
+    //             console.error('Error canceling appointment:', error);
+    //         });
+    // }
+   
 
     
 
