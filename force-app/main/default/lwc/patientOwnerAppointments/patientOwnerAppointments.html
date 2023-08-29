@@ -66,7 +66,7 @@
                         <tbody>
                             
                             <template for:each={appointmentData} for:item="record">
-                                <tr key={record.Id} >
+                                <tr key={record.Id} class={record.statusClass}>
                                     <td><a onclick={appointmentHandleClick} data-recordid={record.Id}>{record.Name}</a></td>
                                     <!-- <td>{record.Contact__r.Phone}</td> -->
                                     <td>{record.SlotsAvailable__c}</td>
@@ -235,7 +235,7 @@
                                     type="text"
                                     value={cancelOthers}
                                     onchange={handleCancelOthersChange}
-                                ></lightning-input>
+                                 ></lightning-input>
                             </div>
                             <footer class="slds-modal__footer">
                                 <button class="slds-button slds-button_neutral" onclick={hideCancelModal}>Cancel</button>

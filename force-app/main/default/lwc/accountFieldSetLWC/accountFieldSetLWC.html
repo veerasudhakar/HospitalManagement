@@ -1,0 +1,25 @@
+<template>
+    <!-- <lightning-card title={title}>
+        <template if:true={checkFieldSet}>
+                <lightning-datatable key-field="id" data={data} columns={columns}>
+                    <h1>{title}</h1>
+                </lightning-datatable>
+        </template>
+    </lightning-card> -->
+
+    <lightning-card title="Account List">
+        <div class="slds-m-around_medium">
+            <template if:true={accounts}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={accounts}
+                    columns={columns}
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+            <template if:false={accounts}>
+                No accounts to display.
+            </template>
+        </div>
+    </lightning-card>
+</template>

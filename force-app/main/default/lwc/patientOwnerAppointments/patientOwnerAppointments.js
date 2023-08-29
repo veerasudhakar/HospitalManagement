@@ -167,6 +167,14 @@ export default class PatientOwnerAppointments extends LightningElement {
         rescheduleAppointment({appointmentId:this.recordIdForm,newAppointmentDate:this.selectedDate,newSlot:this.selectedSlot})
         .then(()=>{
             refreshApex(this.resultData);
+            this.appointmentData = this.appointmentData.map(record => {
+                if (record.Id === this.recordIdForm) {
+                    record.Status__c = 'Rescheduled';
+                    // record.isRescheduleButtonDisabled = true;
+                    // record.isCancelButtonDisabled = true;
+                }
+                return record;
+            });
             this.dispatchEvent(
                 new ShowToastEvent({
                   title: 'Success',
@@ -196,10 +204,11 @@ export default class PatientOwnerAppointments extends LightningElement {
       this.showCancelModal = true;
   }
 
-  value = 'Forgetting about the appointment';
+  value = 'NONE';
 
   get options() {
     return [
+        { label: 'NONE', value: 'NONE' },
         { label: 'Forgetting about the appointment', value: 'Forgetting about the appointment' },
         { label: 'Work-related issues', value: 'Work-related issues' },
         { label: 'Not notified about the appointment', value: 'Not notified about the appointment' },
@@ -289,6 +298,20 @@ confirmCancellation() {
     //     }
     // }
 
+    //Expire the Records
+    handleExpiration() {
+        // Iterate through the appointmentData and update the status to "Expired" if the date has passed
+        const currentDate = new Date().toISOString().split('T')[0];
+        this.appointmentData = this.appointmentData.map(record => {
+            if (record.Appointment_Date__c < currentDate && record.Status__c !== 'Completed' && record.Status__c !== 'Cancelled') {
+                record.Status__c = 'Expired';
+                record.isRescheduleButtonDisabled = true;
+                record.isCancelButtonDisabled = true;
+            }
+            return record;
+        });
+    }
+
     //BUttons for the Disable
 
     isButtonDisabled(status) {
@@ -308,13 +331,22 @@ confirmCancellation() {
             }));
             this.appointmentData = result.data.map(record => ({
                 ...record,
+                statusClass: record.Status__c === 'Cancelled'
+                ? 'cancelled-status'
+                : (record.Status__c === 'Scheduled'
+                    ? 'scheduled-status'
+                    : (record.Status__c === 'Completed'
+                        ? 'completed-status'
+                        : '')), // Empty class for other cases
                 isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
                 isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
+               
             }));
             this.appointmentData = [...this.unfilteredData];
            // this.appointmentData = data
             console.log('appData',result.data)
 
+            this.handleExpiration();
             if (this.initialLoad) {
                 this.initialLoad = false;
             } else {

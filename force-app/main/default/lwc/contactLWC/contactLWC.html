@@ -1,0 +1,36 @@
+<template>
+   
+    <div class="slds-tabs_card">
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity">
+                                 <lightning-icon icon-name="standard:recipe" alternative-text="recipe" title="recipe"></lightning-icon>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span>How to use Field Sets in LWC</span>
+                                        <span class="slds-page-header__title slds-truncate" title="Recently Viewed">Mytutorialrack</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <br/>
+  
+    <lightning-card variant="Narrow" title="Field Set Example" icon-name="standard:apps">
+        <div class="slds-p-horizontal_small" if:true={isColumnsDataAvailable}>
+            <lightning-datatable key-field="id" data={data} columns={columns}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+  
+</template>

@@ -1,0 +1,9 @@
+<template>
+    <lightning-card title="Parent Component" icon-name="Utility:user">
+        <div class="slds-var-m-around_medium">
+            <lightning-input type="number" value={percentage} onchange={handleonChnage}>
+            </lightning-input><br/>
+            <c-child-component>percentage={percentage}</c-child-component>
+        </div>
+    </lightning-card>
+</template>
