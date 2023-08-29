@@ -72,15 +72,37 @@ export default class PatientOwnerAppointments extends LightningElement {
 
     applyDateFilter() {
         if (!this.selectedFilterDate) {
-            // If no filter date is selected, show all records
-            this.appointmentData = [...this.unfilteredData];
+            // If no filter date is selected, show the search-filtered records
+            this.appointmentData = this.appointmentData.filter(record => {
+                const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
+                const appointmentDate = new Date(record.Appointment_Date__c).toISOString().split('T')[0];
+    
+                const matchesSearchCriteria =
+                    record.Name.toLowerCase().includes(this.searchCriteria) ||
+                    lowerCaseStatus.includes(this.searchCriteria) ||
+                    (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
+                    (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria));
+    
+                return matchesSearchCriteria;
+            });
         } else {
-            // Filter records based on the selected date
+            // Filter records based on both the search criteria and selected date
             this.appointmentData = this.unfilteredData.filter(record => {
-                return record.Appointment_Date__c === this.selectedFilterDate;
+                const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
+                const appointmentDate = new Date(record.Appointment_Date__c).toISOString().split('T')[0];
+    
+                const matchesSearchCriteria =
+                    record.Name.toLowerCase().includes(this.searchCriteria) ||
+                    lowerCaseStatus.includes(this.searchCriteria) ||
+                    (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
+                    (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria));
+    
+                const matchesDateFilter =
+                    appointmentDate === this.selectedFilterDate;
+    
+                return matchesSearchCriteria && matchesDateFilter;
             });
         }
-      
     }
 
     clearDateFilter() {
@@ -390,24 +412,48 @@ confirmCancellation() {
             this.applyFilter();
         }
     }
-    
-    
-    
+
+
+
     applyFilter() {
         if (this.unfilteredData && this.unfilteredData.length > 0) {
             refreshApex(this.unfilteredData);
             const filteredData = this.unfilteredData.filter(record => {
                 const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
-                return (
+                const appointmentDate = new Date(record.Appointment_Date__c).toISOString().split('T')[0];
+    
+                const matchesSearchCriteria =
                     record.Name.toLowerCase().includes(this.searchCriteria) ||
                     lowerCaseStatus.includes(this.searchCriteria) ||
                     (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
-                    (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria))
-                );
+                    (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria));
+    
+                const matchesDateFilter =
+                    !this.selectedFilterDate || appointmentDate === this.selectedFilterDate;
+    
+                return matchesSearchCriteria && matchesDateFilter;
             });
     
             this.appointmentData = filteredData;
         }
+    }
+    //Apply Filter Old data About the search Criteria
+    
+    // applyFilter() {
+    //     if (this.unfilteredData && this.unfilteredData.length > 0) {
+    //         refreshApex(this.unfilteredData);
+    //         const filteredData = this.unfilteredData.filter(record => {
+    //             const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
+    //             return (
+    //                 record.Name.toLowerCase().includes(this.searchCriteria) ||
+    //                 lowerCaseStatus.includes(this.searchCriteria) ||
+    //                 (record.Doctor__r && record.Doctor__r.Specialty__c.toLowerCase().includes(this.searchCriteria)) ||
+    //                 (record.Doctor__r && record.Doctor__r.Name.toLowerCase().includes(this.searchCriteria))
+    //             );
+    //         });
+    
+    //         this.appointmentData = filteredData;
+    //     }
 //This is the Date Filter Functionality 
 
         // if (this.unfilteredData && this.unfilteredData.length > 0) {
@@ -433,7 +479,7 @@ confirmCancellation() {
 
         //     this.appointmentData = filteredData;
         // }
-    }
+  
     
     
     
