@@ -2,13 +2,13 @@ import { LightningElement } from 'lwc';
 
 export default class AccountSearchForm extends LightningElement {
 
-    searchtext = '';
+    searchText = '';
     accountNameChangeHandler(event){
-        this.searchtext = event.target.value;
+        this.searchText = event.target.value;
     }
 
     searchClickHandler(){
-       const event= new CustomEvent('searchaccountcontact',{ detail:this.searchtext});
+       const event= new CustomEvent('searchaccountcontact',{ detail:this.searchText});
        this.dispatchEvent(event);
     }
 }

@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="accountSearhResult">
+        <div style="height: 300px;">
+            <lightning-datatable
+                    key-field="Id"
+                    data={accData}
+                    columns={columns}
+                    hide-checkbox-column="true"
+                    show-row-number-column="true"
+                    onrowaction={rowActionHandler}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>

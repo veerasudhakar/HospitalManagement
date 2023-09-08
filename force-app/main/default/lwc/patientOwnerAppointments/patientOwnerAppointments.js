@@ -1,4 +1,4 @@
-import { LightningElement, wire, api,track } from 'lwc';
+import { LightningElement, wire,track } from 'lwc';
 import Id from '@salesforce/user/Id';
 import { getRecord } from 'lightning/uiRecordApi';
 import UserNameFIELD from '@salesforce/schema/User.Name';
@@ -69,13 +69,14 @@ export default class PatientOwnerAppointments extends LightningElement {
       // }
       
     }
+    
 
     applyDateFilter() {
         if (!this.selectedFilterDate) {
             // If no filter date is selected, show the search-filtered records
             this.appointmentData = this.appointmentData.filter(record => {
                 const lowerCaseStatus = record.Status__c ? record.Status__c.toLowerCase() : '';
-                const appointmentDate = new Date(record.Appointment_Date__c).toISOString().split('T')[0];
+                // const appointmentDate = new Date(record.Appointment_Date__c).toISOString().split('T')[0];
     
                 const matchesSearchCriteria =
                     record.Name.toLowerCase().includes(this.searchCriteria) ||

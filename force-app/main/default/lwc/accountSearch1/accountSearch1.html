@@ -1,0 +1,12 @@
+<template>
+    
+    <lightning-card title="This is a Parent Component">
+        <!--Here will use declarative Approach that's why custom event name we call here with ON Functionality and Declare with handler-->
+        <c-account-search-form onsearchaccountcontact={searchAccountContactHanlder}></c-account-search-form>
+    </lightning-card>
+
+    <lightning-card>
+        <!--This is parent to child communication here we will use in declarative..Here we can call declarative that's why we call here like 'search-text'-->
+        <c-account-search-result1 search-text={searchText}></c-account-search-result1>
+    </lightning-card>
+</template>
