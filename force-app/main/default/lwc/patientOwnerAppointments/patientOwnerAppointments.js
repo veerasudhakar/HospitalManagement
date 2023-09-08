@@ -234,7 +234,7 @@ export default class PatientOwnerAppointments extends LightningElement {
         { label: 'Forgetting about the appointment', value: 'Forgetting about the appointment' },
         { label: 'Work-related issues', value: 'Work-related issues' },
         { label: 'Not notified about the appointment', value: 'Not notified about the appointment' },
-        { label: 'Transportation', value: 'Transportation' },
+        { label: 'Transportation', value: 'Transportation' }
     ];
 }
 

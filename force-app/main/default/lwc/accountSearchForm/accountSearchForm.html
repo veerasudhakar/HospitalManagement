@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="This is Account Search Form">
+
+        <lightning-layout>
+
+            <lightning-layout-item>
+                <lightning-input type="text" label="Enter account Name" onchange={accountNameChangeHandler}></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item class="slds-m-top_medium">
+                <lightning-button label ="search" onclick={searchClickHandler}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>
