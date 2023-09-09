@@ -11,6 +11,7 @@ import rescheduleAppointment from '@salesforce/apex/myAppointment.rescheduleAppo
 import cancelAppointment from '@salesforce/apex/myAppointment.cancelAppointment';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+
 // import APPOINTMENT_DATE_FIELD from '@salesforce/schema/Appointment__c.Appointment_Date__c';
 // import STATUS_FIELD from '@salesforce/schema/Appointment__c.Status__c';
 
@@ -340,6 +341,7 @@ confirmCancellation() {
     isButtonDisabled(status) {
         return status === 'Completed' || status === 'Cancelled';
     }
+   
 
     resultData
 
@@ -350,21 +352,24 @@ confirmCancellation() {
             this.unfilteredData = result.data.map(record => ({
                 ...record,
                 isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c) || record.Appointment_Date__c < new Date().toISOString().split('T')[0],
-                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c) || record.Appointment_Date__c < new Date().toISOString().split('T')[0]
-            }));
-            this.appointmentData = result.data.map(record => ({
-                ...record,
-                statusClass: record.Status__c === 'Cancelled'
-                ? 'cancelled-status'
-                : (record.Status__c === 'Scheduled'
-                    ? 'scheduled-status'
-                    : (record.Status__c === 'Completed'
-                        ? 'completed-status'
-                        : '')), // Empty class for other cases
-                isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
-                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
+                isCancelButtonDisabled: this.isButtonDisabled(record.Status__c) || record.Appointment_Date__c < new Date().toISOString().split('T')[0],
                
             }));
+
+            
+            // this.appointmentData = result.data.map(record => ({
+            //     ...record,
+            //     statusClass: record.Status__c === 'Cancelled'
+            //     ? 'cancelled-status'
+            //     : (record.Status__c === 'Scheduled'
+            //         ? 'scheduled-status'
+            //         : (record.Status__c === 'Completed'
+            //             ? 'completed-status'
+            //             : '')), // Empty class for other cases
+            //     isRescheduleButtonDisabled: this.isButtonDisabled(record.Status__c),
+            //     isCancelButtonDisabled: this.isButtonDisabled(record.Status__c)
+               
+            // }));
             this.appointmentData = [...this.unfilteredData];
            // this.appointmentData = data
             console.log('appData',result.data)

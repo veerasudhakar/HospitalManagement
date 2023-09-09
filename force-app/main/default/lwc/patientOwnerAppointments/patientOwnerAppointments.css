@@ -1,14 +1,11 @@
-/* Red for Cancelled */
-.cancelled-status {
-    background-color: #ffcccc;
+/*
+.success-row {
+    background-color: green; 
+    color: white; 
 }
 
-/* Blue for Scheduled */
-.scheduled-status {
-    background-color: #ccf2ff;
+.error-row {
+    background-color: red; 
+    color: white; 
 }
-
-/* Green for Completed */
-.completed-status {
-    background-color: #ccffcc;
-}
+*/
