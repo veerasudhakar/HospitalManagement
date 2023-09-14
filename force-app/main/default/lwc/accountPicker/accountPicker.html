@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Account Picker">
+        <lightning-combobox
+            name="accountPicklist"
+            label="Select an Account"
+            value={selectedAccountId}
+            options={accountOptions}
+            onchange={handleAccountChange}
+        ></lightning-combobox>
+        <template if:true={selectedAccount}>
+            <div class="slds-m-top_medium">
+                <p>Name: {selectedAccount.Name}</p>
+                <p>Industry: {selectedAccount.Industry}</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>

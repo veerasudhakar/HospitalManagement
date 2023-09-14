@@ -1,0 +1,24 @@
+<template>
+    <lightning-input
+    name="enter-search"
+    label="Opportunity Name"
+    type="search"
+   
+    onclick={handleSaerchHandler}
+></lightning-input>
+
+<!-- <lightning-button variant="brand" label="Search" title="Primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button> -->
+        <div style="height: 300px;">
+            <lightning-datatable
+                    key-field="oppos.id"
+                    data={oppoList}
+                    columns={columns}
+                    onrowaction={handleClick}>
+                    
+            </lightning-datatable>
+        </div>
+   
+       
+  
+   
+</template>

@@ -1,0 +1,259 @@
+<template>
+    <template if:true={showSpinner}>
+        <div id="spinnerDiv" style="height: 10rem">
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_medium">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- A lightning-card component to display the content -->
+    <lightning-card title="Pagination Example with html table and column having sorting and filtering.">
+        <!-- A table to display the accounts data-->
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <!-- The header of the table -->
+            <thead>
+                <!-- A row to contain the header cells -->
+                <tr class="slds-line-height_reset">
+                    <!-- A header cell for the 'Name' column -->
+                    <th class="slds-text-title_caps" scope="col">
+                        <span title="Click on header name to sort" data-field-name="Name"
+                            onclick={handleSort}>Name</span>&nbsp;&nbsp;
+                        <template if:true={filters.Name}>
+                            <span style="text-align: left;
+                                                padding: 8px;
+                                                width: 100px;
+                                                word-wrap: break-word;
+                                                overflow-wrap: break-word;
+                                                white-space: pre-line;font-weight: 600;
+                                                font-size: 10px;   ">: {filters.Name}</span>
+                        </template>&nbsp;
+                        <!-- Add for Name -->
+                        <lightning-button-menu alternative-text="actions" onselect={handleHeaderAction}
+                            data-column="Name" icon-size="small" tooltip="Click to filter records">
+                            <lightning-menu-item value="filter" label="Filter" icon-name="utility:filter"
+                                icon-size="small">></lightning-menu-item>
+                            <lightning-menu-item value="clearFilter" label="Clear Filter" icon-name="utility:clear"
+                                icon-size="small"></lightning-menu-item>
+                        </lightning-button-menu>
+                        <span data-field-id="Name" lwc:dom="manual"></span>
+                    </th>
+                    <!-- A header cell for the 'Phone' column -->
+                    <th class="slds-text-title_caps" scope="col">
+                        <span data-field-name="Phone" onclick={handleSort}>Phone</span>&nbsp;&nbsp;
+                        <template if:true={filters.Phone}>
+                            <span style="text-align: left;
+                            padding: 8px;
+                            width: 100px;
+                            word-wrap: break-word;
+                            overflow-wrap: break-word;
+                            white-space: pre-line;font-weight: 600;
+                            font-size: 10px;   ">: {filters.Phone}</span>
+                        </template>&nbsp;
+                        <!-- Add for Phone -->
+                        <lightning-button-menu alternative-text="actions" onselect={handleHeaderAction}
+                            data-column="Phone" icon-size="small" tooltip="Click to filter records">
+                            <lightning-menu-item value="filter" label="Filter" icon-name="utility:filter"
+                                icon-size="small"></lightning-menu-item>
+                            <lightning-menu-item value="clearFilter" label="Clear Filter" icon-name="utility:clear"
+                                icon-size="small"></lightning-menu-item>
+                        </lightning-button-menu>
+                        <span data-field-id="Phone" lwc:dom="manual"></span>
+                    </th>
+                    <!-- A header cell for the 'Industry' column -->
+                    <th class="slds-text-title_caps" scope="col">
+                        <span data-field-name="Industry" onclick={handleSort}>Industry</span>&nbsp;&nbsp;
+                        <template if:true={filters.Industry}>
+                            <span style="text-align: left;
+                            padding: 8px;
+                            width: 100px;
+                            word-wrap: break-word;
+                            overflow-wrap: break-word;
+                            white-space: pre-line;font-weight: 600;
+                            font-size: 10px;   ">: {filters.Industry}</span>
+                        </template>&nbsp;
+                        <!-- Add for Industry -->
+                        <lightning-button-menu alternative-text="actions" onselect={handleHeaderAction}
+                            data-column="Industry" icon-size="small" tooltip="Click to filter records">
+                            <lightning-menu-item value="filter" label="Filter" icon-name="utility:filter"
+                                icon-size="small"></lightning-menu-item>
+                            <lightning-menu-item value="clearFilter" label="Clear Filter" icon-name="utility:clear"
+                                icon-size="small"></lightning-menu-item>
+                        </lightning-button-menu>
+                        <span data-field-id="Industry" lwc:dom="manual"></span>
+                    </th>
+                    <!-- <th data-field-name="Industry" class="slds-text-title_caps" scope="col" onclick={handleSort}>
+                        Industry
+                        <span data-field-id="Industry" lwc:dom="manual"></span>
+                    </th> -->
+                    <!-- A header cell for the 'CreatedDate' column -->
+                    <th class="slds-text-title_caps" scope="col">
+                        <span data-field-name="CreatedDate" onclick={handleSort}>Created Date</span>&nbsp;&nbsp;
+                        <template if:true={filters.CreatedDate}>
+                            <span style="text-align: left;
+                                                padding: 8px;
+                                                width: 100px;
+                                                word-wrap: break-word;
+                                                overflow-wrap: break-word;
+                                                white-space: pre-line;font-weight: 600;
+                                                font-size: 10px;   ">: {filters.CreatedDate}</span>
+                        </template>&nbsp;
+                        <!-- Add for CreatedDate -->
+                        <lightning-button-menu alternative-text="actions" onselect={handleHeaderAction}
+                            data-column="CreatedDate" icon-size="small" tooltip="Click to filter records">
+                            <lightning-menu-item value="filter" label="Filter" icon-name="utility:filter"
+                                icon-size="small"></lightning-menu-item>
+                            <lightning-menu-item value="clearFilter" label="Clear Filter" icon-name="utility:clear"
+                                icon-size="small"></lightning-menu-item>
+                        </lightning-button-menu>
+                        <span data-field-id="CreatedDate" lwc:dom="manual"></span>
+                    </th>
+                    <!-- A header cell for the 'LastModifiedDate' column -->
+                    <th data-field-name="LastModifiedDate" class="slds-text-title_caps" scope="col"
+                        onclick={handleSort}>
+                        LastModified Date
+                        <span data-field-id="LastModifiedDate" lwc:dom="manual"></span>
+                    </th>
+                </tr>
+            </thead>
+            <!-- The body of the table -->
+            <tbody>
+                <!-- A conditional template to display the accounts data if there are any -->
+                <template if:true={accounts.length}>
+                    <!-- A for:each template to iterate through the displayAccounts array -->
+                    <template for:each={displayAccounts} for:item="account">
+                        <!-- A row to display a single account data -->
+                        <tr key={account.Id}>
+                            <!-- A cell for the 'Name' column -->
+                            <td>{account.Name}</td>
+                            <!-- A cell for the 'Phone' column -->
+                            <td>
+                                <!-- A lightning-formatted-phone component to format the phone number -->
+                                <lightning-formatted-phone value={account.Phone}></lightning-formatted-phone>
+                            </td>
+                            <!-- A cell for the 'Industry' column -->
+                            <td>{account.Industry}</td>
+                            <!-- A cell for the 'CreatedDate' column -->
+                            <td>
+                                <!-- A lightning-formatted-date-time component to format the date and time -->
+                                <lightning-formatted-date-time value={account.CreatedDate} year="numeric"
+                                    month="numeric" day="numeric" hour="2-digit" minute="2-digit">
+                                </lightning-formatted-date-time>
+                            </td>
+                            <!-- A cell for the 'LastModifiedDate' column -->
+                            <td>
+                                <!-- A lightning-formatted-date-time component to format the date and time -->
+                                <lightning-formatted-date-time value={account.LastModifiedDate} year="numeric"
+                                    month="numeric" day="numeric" hour="2-digit" minute="2-digit">
+                                </lightning-formatted-date-time>
+                            </td>
+                        </tr>
+                    </template>
+                </template>
+                <!-- A conditional template to display a message if there are no accounts data -->
+                <template if:false={accounts.length}>
+                    <tr>
+                        <td colspan="5">No data to display</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        <br/>
+        <!-- A lightning-layout component to organize the content into multiple rows -->
+        <lightning-layout multiple-rows="true">
+            <!-- A lightning-layout-item component to specify the size of the content -->
+            <lightning-layout-item size="12">
+                <!-- A div with slds-align_absolute-center class to align the content to the center -->
+                <div class="slds-align_absolute-center">
+                    <!-- A ul with slds-button-group-row class to display the buttons in a row -->
+                    <ul class="slds-button-group-row">
+                        <!-- A li with slds-button-group-item class to display the first button in the group -->
+                        <li class="slds-button-group-item">
+                            <!-- A lightning-button component to represent the first page button -->
+                            <lightning-button label="First" onclick={navigateToFirstPage} disabled={isFirstPage}>
+                            </lightning-button>
+                        </li>
+                        <!-- A li with slds-button-group-item class to display the previous button in the group -->
+                        <li class="slds-button-group-item">
+                            <!-- A lightning-button component to represent the previous page button -->
+                            <lightning-button label="Previous" onclick={navigateToPreviousPage}
+                                disabled={isPreviousDisabled}>
+                            </lightning-button>
+                        </li>
+                        <template lwc:if={showPageButtons}>
+                            <!-- A template with if:true condition to check if the pageNumbers array has length -->
+                            <template if:true={pageNumbers.length}>
+                                <!-- A template with for:each loop to iterate through the pageNumbers array -->
+                                <template for:each={pageNumbers} for:item="pageNumber">
+                                    <!-- A li with slds-button-group-item class to display each page number button in the group -->
+                                    <li class="slds-button-group-item" key={pageNumber}>
+                                        <!-- A button with data-id attribute and slds-button_neutral class to represent each page number -->
+                                        <button data-id={pageNumber} class="slds-button slds-button_neutral"
+                                            onclick={navigateToPage}>
+                                            {pageNumber}
+                                        </button>
+                                    </li>
+                                </template>
+                            </template>
+                        </template>
+                        <template lwc:else>
+                            <li class="slds-button-group-item" style="padding: 5px">
+                                Showing Page {currentPage} of {totalPages}
+                            </li>
+                        </template>
+                        <!-- A li with slds-button-group-item class to display the next button in the group -->
+                        <li class="slds-button-group-item">
+                            <!-- A lightning-button component to represent the next page button -->
+                            <lightning-button label="Next" onclick={navigateToNextPage} disabled={isNextDisabled}>
+                            </lightning-button>
+                        </li>
+                        <!-- A li with slds-button-group-item class to display the last button in the group -->
+                        <li class="slds-button-group-item">
+                            <!-- A lightning-button component to represent the last page button -->
+                            <lightning-button label="Last" onclick={navigateToLastPage} disabled={isLastPage}>
+                            </lightning-button>
+                        </li>
+                    </ul>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+    <!-- Popup for filter entry -->
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC body here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p style="font-weight: 700;float: left;"> {columnFilterName} </p><br />
+                    <template if:true={isPicklist}>
+                        <lightning-dual-listbox name="picklistValues" variant="label-hidden" source-label="Available"
+                            selected-label="Selected" options={picklistOptions} onchange={handleFilterChange}>
+                        </lightning-dual-listbox>
+                    </template>
+                    <template if:false={isPicklist}>
+                        <template if:true={isDate}>
+                            <lightning-input type="date" variant="label-hidden" onchange={handleFilterChange}
+                                date-style="short"></lightning-input>
+                        </template>
+                        <template if:false={isDate}>
+                            <lightning-input variant="label-hidden" type="text" label={columnFilterName} 
+                                onchange={handleFilterChange}></lightning-input>
+                        </template>
+                    </template>
+                </div>
+                <!-- Modal/Popup Box LWC footer here -->
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="brand" label="Apply Filter" title="Apply Filter" onclick={applyFilter}
+                        class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" class="slds-m-left_x-small" label="Close" title="Close"
+                        onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

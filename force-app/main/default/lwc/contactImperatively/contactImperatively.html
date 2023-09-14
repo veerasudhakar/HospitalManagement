@@ -1,0 +1,12 @@
+<template>
+
+    <!-- <lightning-button variant="brand" label="GetConatcts" title="Primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button> -->
+    <div style="height: 300px;">
+        <lightning-datatable
+        key-field = "id"
+        data ={Contacts}
+        columns={columns}
+        onrowaction={handleClick}
+        ></lightning-datatable>
+    </div>
+</template>
