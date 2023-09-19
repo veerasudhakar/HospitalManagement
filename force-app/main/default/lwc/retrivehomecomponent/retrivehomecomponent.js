@@ -54,7 +54,7 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
     contactDetails
     contactRecordId
     genderOptions
-    contactInput=false
+    contactInput=true;
     @wire(getRecord, { recordId: Id, fields: [UserNameFIELD,UserIDFIELD, userEmailFIELD, userIsActiveFIELD, userAliasFIELD ]}) 
     currentUserInfo({error, data}) {
         if (data) {
@@ -76,7 +76,7 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
         if(data){
             this.contactDetails=data
             this.contactRecordId=data.Id
-            console.log(this.contactDetails)
+            console.log('user all details...'+JSON.stringify(this.contactDetails))
             if(this.contactDetails.Date_Of_Birth__c ==undefined && this.contactDetails.Phone ==undefined && this.contactDetails.Address__c==undefined && this.contactDetails.Gender__c==undefined){
                 this.contactInput=true
             }
@@ -314,7 +314,7 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
   @track address = '';
   @track availableSlots = [];
   @track selectedDate = ''
-  @track dateOFBirth=''
+  @track dateOFBirth = ''
   @track age='';
   @ track ageTamplate =false;
   //doctorId = 'a065i00000OC2WtAAL'
@@ -611,12 +611,22 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
         // contact.Last_Name__c = this.lastName;
         // contact.Email__c = this.email;
          contact.Id = this.contactRecordId;
+          if(this.address != ''){
          contact.Address__c = this.address;
+          }
+          if(this.conNum != ''){
          contact.Phone = this.conNum;
+          }
         //contact.Appointment_Date__c = this.myDatetime;
+        if(this.dateOFBirth != ''){
         contact.Date_Of_Birth__c=this.dateOFBirth;
+        }
+        if(this.age != ''){
          contact.Age__c=this.age;
+        }
+        if(this.gender != ''){
           contact.Gender__c=this.gender;
+        }
         //contact.AccountId=this.accountName
         console.log('doc id on selecting appointment ' + this.selectedDate);
 

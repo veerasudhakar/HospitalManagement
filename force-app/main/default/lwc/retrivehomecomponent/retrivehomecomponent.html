@@ -379,7 +379,10 @@
 </lightning-layout>
 <lightning-layout multiple-rows>
 	<lightning-layout-item size="4">
-		
+	<template if:true={contactDetails.Date_Of_Birth__c}>
+		<div><p><strong>Date Of Birth :  </strong>{contactDetails.Date_Of_Birth__c}</p></div>
+	</template>
+	<template if:false={contactDetails.Date_Of_Birth__c}>
 	<lightning-input
 				type="Date"
 				variant="standard"
@@ -389,9 +392,14 @@
 				style="max-width: 90%;"
 				required
 				></lightning-input>
+	</template>
 	</lightning-layout-item>
 	<lightning-layout-item size="2">
 		<!-- <template if:true={ageTamplate}> -->
+			<template if:true={contactDetails.Age__c}>
+		<div><p><strong >Age :  </strong>{contactDetails.Age__c}</p></div>
+	</template>
+	<template if:false={contactDetails.Age__c}>
 		<lightning-input
 		type="number"
 		variant="standard"
@@ -402,12 +410,17 @@
 		style="max-width: 70%;"
 		disabled
 		></lightning-input>
+	</template>
 		
 		<!-- </template> -->
 	</lightning-layout-item>
 
 
 	<lightning-layout-item size="6">
+		<template if:true={contactDetails.Gender__c}>
+		<div><p><strong>Gender :  </strong>{contactDetails.Gender__c}</p></div>
+	</template>
+	<template if:false={contactDetails.Gender__c}>
 		<lightning-combobox
 				label="Gender"
 				name="gender"
@@ -418,6 +431,7 @@
 				required
 				>
 				</lightning-combobox>
+	</template>
 	</lightning-layout-item>
 </lightning-layout>
 
@@ -433,21 +447,28 @@
 		required
 		></lightning-input>
 	</lightning-layout-item> -->
-
+<template if:false={contactDetails.Phone}>
 <lightning-layout-item size="2">
 <div class="countryCode ">
+	
 	<lightning-combobox options={countryCodes} onchange={handleCountryCodeChange}
 		placeholder="Select Country Code" label="Country Code" style="max-width: 80%;">
 	</lightning-combobox>
 </div>
 </lightning-layout-item>
+</template>
 
 <lightning-layout-item size="4">
+	<template if:true={contactDetails.Phone}>
+		<div><p><strong>Mobile Number :  </strong>{contactDetails.Phone}</p></div>
+	</template>
+	<template if:false={contactDetails.Phone}>
 <lightning-input type="tel" label="Mobile Number " pattern={contactNumberPattern} required
 							placeholder={contactNumberPlaceholder} onchange={handleContactNumberBlur} onblur={handleContactNumberBlur}
 							error-message={contactNumberInputerrormsg} style="max-width: 85%;">
 
 						</lightning-input>
+	</template>
 </lightning-layout-item>	
 
 	<lightning-layout-item size="6">
@@ -470,6 +491,10 @@
         onchange={handleChange} 
 		style="max-width: 90%;"
 		></lightning-input-address> -->
+		<template if:true={contactDetails.Address__c}>
+		<div><p><strong style="margin-left: 130px;">Address :  </strong>{contactDetails.Address__c}</p></div>
+	</template>
+	<template if:false={contactDetails.Address__c}>
 		<lightning-textarea		
 		variant="standard"
 		name="address"
@@ -479,10 +504,11 @@
 		style="max-width: 90%;"
 		required
 		></lightning-textarea>
+	</template>
 	</lightning-layout-item>
 </lightning-layout>
 </template>
-<template if:false={contactInput}>
+<!-- <template if:false={contactInput}>
 	<section style="padding: 2px;background-color: #bcbcdd;font-size: medium;font-weight: bold;">Patient Details</section>
 	<div><p><strong>Patient Id :  </strong>{contactDetails.Appointment_No__c }</p></div>
 <lightning-layout multiple-rows>
@@ -522,7 +548,7 @@
 
 	
 </lightning-layout>
-</template>
+</template> -->
 <section style="padding: 2px;background-color: #bcbcdd;font-size: medium;font-weight: bold;">Appointment Details</section>
 <lightning-layout multiple-rows>
 	<lightning-layout-item size="6">

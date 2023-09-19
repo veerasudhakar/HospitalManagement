@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Contact Pagination Demo" icon-name="custom:custom63">
+        <div class="slds-m-around_medium">
+            <template if:true={totalContacts}>
+                <template for:each={totalContacts} for:item="contact">
+                   <p key={contact.Id}>{contact.Name}</p>
+                </template>
+            </template>
+            <div slot="footer" class="slds-var-m-horizantal_medium">
+<c-pagination></c-pagination>
+            </div>
+        </div>
+    </lightning-card>
+</template>
