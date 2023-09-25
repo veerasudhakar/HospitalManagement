@@ -85,7 +85,6 @@
                                                 disabled={record.isCancelButtonDisabled}
                                             ></lightning-button>
                                         </td>
-                                   
                                     <!-- <td><lightning-button label="Cancel" onclick={cancelAppointmentHandler} data-recordid={record.Id}
                                         disabled={record.isCancelButtonDisabled}></lightning-button></td> -->
                                  
@@ -99,6 +98,8 @@
             </div>
             </div>
 
+            <!-- <lightning-button label="Update Expired Appointments" onclick={updateExpiredAppointmentsHandler}></lightning-button> -->
+
             <!-- <template for:each={appointmentData} for:item="record">
                 <tr key={record.Id}>
                    
@@ -108,6 +109,30 @@
                 </tr>
             </template> -->
             <!-- <c-appointment-reschedule-modal is-open={showModal} appointment-id={selectedAppointmentId} onreschedule={handleReschedule}></c-appointment-reschedule-modal> -->
+
+            <!--Modal For VIew Record-->
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_small">
+                <div class="slds-modal__container">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                      <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                  </button>
+                  <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Modal header</h1>
+                  </div>
+                  <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!--Component-->
+                  </div>
+                  <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" aria-label="Cancel and close">Cancel</button>
+                    <button class="slds-button slds-button_brand">Save</button>
+                  </div>
+                </div>
+              </section>
+              <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+            <!--Modal End-->
             <div class="slds-grid slds-gutters">
                 <div class="slds-col">
                   <span>
@@ -225,18 +250,24 @@
 
                                 <lightning-combobox
                                 name="cancelReason"
-                                label="reason"
+                                label="Reason"
                                 value={value}
-                                placeholder="Appointmnet"
+                                placeholder="Choose a Reason"
                                 options={options}
+                                required
                                 onchange={handleCancelReasonChange}></lightning-combobox>
 
-                                <lightning-input
+                                <template if:true={cancelledReason}>
+                                    <lightning-input
                                     label="Other Details"
                                     type="text"
                                     value={cancelOthers}
                                     onchange={handleCancelOthersChange}
                                  ></lightning-input>
+                                 </template>
+
+                                
+                               
                             </div>
                             <footer class="slds-modal__footer">
                                 <button class="slds-button slds-button_neutral" onclick={hideCancelModal}>Cancel</button>

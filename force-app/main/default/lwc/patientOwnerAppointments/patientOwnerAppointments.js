@@ -6,6 +6,7 @@ import userEmailFIELD from '@salesforce/schema/User.Email';
 import userId from '@salesforce/schema/User.Id';
 // import { updateRecord } from 'lightning/uiRecordApi';
 import RelatedRecordsController from '@salesforce/apex/myAppointment.RelatedRecordsController';
+import updateExpiredAppointments from '@salesforce/apex/myAppointment.updateExpiredAppointments';
 import getAvailableSlots from '@salesforce/apex/myAppointment.getAvailableSlots';
 import rescheduleAppointment from '@salesforce/apex/myAppointment.rescheduleAppointment';
 import cancelAppointment from '@salesforce/apex/myAppointment.cancelAppointment';
@@ -37,6 +38,7 @@ export default class PatientOwnerAppointments extends LightningElement {
 
     @track filterCriteria = 'all';
     availableSlots
+    cancelledReason = false;
     //defaultAppointmentData = [];
     //contactId
 
@@ -228,11 +230,12 @@ export default class PatientOwnerAppointments extends LightningElement {
       this.showCancelModal = true;
   }
 
-  value = 'NONE';
+  value ;
+  selectedReason = '';
 
   get options() {
     return [
-        { label: 'NONE', value: 'NONE' },
+        { label: 'Others', value: 'Others' },
         { label: 'Forgetting about the appointment', value: 'Forgetting about the appointment' },
         { label: 'Work-related issues', value: 'Work-related issues' },
         { label: 'Not notified about the appointment', value: 'Not notified about the appointment' },
@@ -240,9 +243,28 @@ export default class PatientOwnerAppointments extends LightningElement {
     ];
 }
 
+// handleCancelReasonChange(event) {
+//     this.selectedReason = event.target.value;
+    
+// }
+
+// handleCancelOthersChange(event) {
+//     this.cancelOthers = event.target.value;
+// }
+
 handleCancelReasonChange(event) {
-    this.value = event.target.value;
-    console.log(event.target.value);
+    console.log('event.target.value......'+event.target.value)
+    if(event.target.value === 'Others'){
+        this.value = event.target.value;
+        console.log(this.value);
+        this.cancelledReason = true;
+    }
+    else{
+        this.value = event.target.value;
+        console.log(this.value);
+        this.cancelledReason = false;
+    }
+    
 }
 
 handleCancelOthersChange(event) {
@@ -257,6 +279,7 @@ hideCancelModal() {
 
 confirmCancellation() {
     // Call the Apex method to cancel the appointment with reason and other details
+    console.log('this.value......'+this.value)
     cancelAppointment({
         appointmentId: this.recordIdForm,
         reason: this.value,
@@ -322,25 +345,71 @@ confirmCancellation() {
     //     }
     // }
 
-    //Expire the Records
+    //Expired thing
+
+    // updateExpiredAppointmentsHandler() {
+    //     updateExpiredAppointments()
+    //         .then(result => {
+    //             // Handle the result if needed
+    //             console.log('Expired appointments updated successfully');
+    //         })
+    //         .catch(error => {
+    //             // Handle errors if any
+    //             console.error('Error updating expired appointments:', error);
+    //         });
+    // }
+
+    //Expired Appointments
+
     handleExpiration() {
-        // Iterate through the appointmentData and update the status to "Expired" if the date has passed
         const currentDate = new Date().toISOString().split('T')[0];
+        const expiredAppointmentIds = [];
+    
         this.appointmentData = this.appointmentData.map(record => {
             if (record.Appointment_Date__c < currentDate && record.Status__c !== 'Completed' && record.Status__c !== 'Cancelled') {
                 record.Status__c = 'Expired';
                 record.isRescheduleButtonDisabled = true;
                 record.isCancelButtonDisabled = true;
+                expiredAppointmentIds.push(record.Id);
             }
             return record;
         });
+    
+        if (expiredAppointmentIds.length > 0) {
+            // Call the Apex method to update expired appointments in the database
+            updateExpiredAppointments({ appointmentIds: expiredAppointmentIds })
+                .then(() => {
+                    console.log('Expired appointments updated successfully in the database');
+                })
+                .catch(error => {
+                    console.error('Error updating expired appointments in the database:', error);
+                });
+        }
     }
-
-    //BUttons for the Disable
-
     isButtonDisabled(status) {
-        return status === 'Completed' || status === 'Cancelled';
-    }
+            return status === 'Completed' || status === 'Cancelled';
+         }
+  
+    //Expire the Records
+   
+    // handleExpiration() {
+    //     // Iterate through the appointmentData and update the status to "Expired" if the date has passed
+    //     const currentDate = new Date().toISOString().split('T')[0];
+    //     this.appointmentData = this.appointmentData.map(record => {
+    //         if (record.Appointment_Date__c < currentDate && record.Status__c !== 'Completed' && record.Status__c !== 'Cancelled') {
+    //             record.Status__c = 'Expired';
+    //             record.isRescheduleButtonDisabled = true;
+    //             record.isCancelButtonDisabled = true;
+    //         }
+    //         return record;
+    //     });
+    // }
+
+    // //BUttons for the Disable
+
+    // isButtonDisabled(status) {
+    //     return status === 'Completed' || status === 'Cancelled';
+    // }
    
 
     resultData

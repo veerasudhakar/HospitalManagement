@@ -75,6 +75,15 @@
     flex-wrap: wrap;
     margin-bottom: 18px;
 }
+.background{
+    width: 100%;
+background: url(https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1689233337000/aboutus?) no-repeat;
+background-size: cover;
+height: 481px;  
+line-height: 25px;
+
+
+}
 
     
  

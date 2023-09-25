@@ -19,6 +19,7 @@ import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 
 import DOCTOR_OBJECT from '@salesforce/schema/Doctor__c';
 import CONTACT_OBJECT from '@salesforce/schema/Contact';
+import Appointment_OBJECT from '@salesforce/schema/Appointment__c';
 
 //  import Healthtip1_IMG from '@salesforce/resourceUrl/Healthtip1';
 // import 	Healthtip2_IMG from '@salesforce/resourceUrl/Healthtip2';
@@ -171,7 +172,7 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
     contactObjectInfo;
 
     @wire(getPicklistValues, { recordTypeId: '$contactObjectInfo.data.defaultRecordTypeId', fieldApiName: 'Doctor__c.Specialty__c' })
-    getPicklistValues({ data, error }) {
+    getPicklistValue1({ data, error }) {
         if (data) {
             this.Specilatyoptions = data.values.map(option => {
                 return {
@@ -196,6 +197,35 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
         } else if (error) {
             console.error(error);
         }
+
+    }
+
+    treatmentOptions=[];
+    selectedtreatment='';
+
+    //For the Mode of treatment Picklist
+
+    @wire(getObjectInfo, { objectApiName: Appointment_OBJECT })
+    appointmentObjectInfo;
+
+    @wire(getPicklistValues, { recordTypeId: '$appointmentObjectInfo.data.defaultRecordTypeId', fieldApiName: 'Appointment__c.Mode_of_Treatment__c' })
+    getPicklistValue({ data, error }) {
+        if (data) {
+            this.treatmentOptions = data.values.map(option => {
+                return {
+                    label: option.label,
+                    value: option.value
+                };
+            });
+        } else if (error) {
+            console.error(error);
+        }
+    }
+
+    //MOde
+    handleTreatmentSelection(event){
+        this.selectedtreatment = event.target.value
+        console.log(this.selectedtreatment);
 
     }
 
@@ -604,6 +634,7 @@ export default class retrivehomecomponent extends NavigationMixin(LightningEleme
         appointment.SlotsAvailable__c = this.selectedSlot;
         appointment.Contact__c=this.contactRecordId
         appointment.Status__c = 'Scheduled';
+        appointment.Mode_of_Treatment__c = this.selectedtreatment;
 
         var contact = {sobjectType: 'Contact'}
         //contact.Contact__c = this.doctorIdap;

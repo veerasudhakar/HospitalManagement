@@ -128,95 +128,59 @@
 		</lightning-layout>
 	</template>
 	</div>
-	<lightning-layout
-	multiple-rows="true"
-	style="background-color: #486424; height: 350px"
-	>
-	<lightning-layout-item
-		size="2"
-		class="slds-var-p-around_X-small doctor-box"
-	>
-		<p
-		style="
-			text-align: center;
-			padding-top: 25px;
-			font-size: x-large;
-			color: #ffffff;
-		"
-		>
-		<strong>ABOUT US</strong>
-		</p>
-		<p
-		style="
-			text-align: center;
-			padding-top: 6px;
-			font-size: 13px;
-			color: black;
-		"
-		>
-		<strong>@Wissen HealthCare</strong>
-		</p>
-	</lightning-layout-item>
-	<lightning-layout-item
-		size="1"
-		class="slds-var-p-around_X-small doctor-box"
-	>
-	</lightning-layout-item>
-	<lightning-layout-item
-		size="4"
-		class="slds-var-p-around_X-small doctor-box"
-	>
-		<div
-		style="
-			font-size: large;
-			font-weight: 600;
-			padding-top: 25px;
-			color: #ffffff;
-		"
-		>
-		Everyone earnestly desires to find the right Ayurveda practitioner and
-		the right supplement manufacturer. In our busy modern world its tough
-		to practice Ayurveda easy since it is difficult to find authentic
-		practitioners and purchase supplements manufactured in traditional
-		Ayurvedic ways. We bring authentic Ayurveda to your doorstep using our
-		secure technology platform.
-		</div>
-	</lightning-layout-item>
-	<lightning-layout-item
-		size="1"
-		class="slds-var-p-around_X-small doctor-box"
-	>
-	</lightning-layout-item>
-	<lightning-layout-item
-		size="4"
-		class="slds-var-p-around_X-small doctor-box"
-	>
-		<div
-		style="
-			font-size: large;
-			font-weight: 600;
-			padding-top: 25px;
-			color: #ffffff;
-		"
-		>
-		We partner with traditional Ayurvedic Vaidyas (Practitioners) and
-		trusted Ayurveda supplement manufacturers.
-		</div>
+	<div class="background">
+	<br><br>
+	
+<lightning-layout multiple-rows="true" style=" height:350px">
+		<lightning-layout-item size="2" class="slds-var-p-around_X-small doctor-box">
+			<div class="logo">
+			<!-- <p style="text-align: center;padding-top: 25px;font-size: x-large; color:#FFFFFF;"><strong>ABOUT US</strong></p>
+			<p style="text-align: center;padding-top: 6px;font-size:13px;color:black"><strong>@Wissen HealthCare</strong></p> -->
+			<img src="https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1689260481000/logo?">
 
-		<div
-		style="
-			font-size: large;
-			font-weight: 600;
-			padding-top: 35px;
-			color: #ffffff;
-		"
-		>
-		Our partner practitioners come from only the most prestigious of
-		Ayurvedic institutions, and live and practice Ayurveda in traditional
-		ways.
-		</div>
-	</lightning-layout-item>
+			<div style="font-size: large;font-weight: 600;;padding-top:38px;padding-left: 20px;font-style: oblique; color:#FFFFFF; ">
+				ABOUT US<br><br>
+				Everyone earnestly desires to find the right Wissen practitioner and the right supplement manufacturer.  
+                We bring authentic Wissen Healthcare to your doorstep using our secure technology platform.</div></br>
+			</div>
+		</lightning-layout-item>
+    <lightning-layout-item size="1" class="slds-var-p-around_X-small doctor-box">
+    </lightning-layout-item>
+		<lightning-layout-item size="4" class="slds-var-p-around_X-small doctor-box">
+			<div style="font-size:large;font-weight:600;padding-top:114px;padding-left:132px;font-style: oblique; color:#FFFFFF; ">
+			OUR SERVICES<br><br>
+
+			<h2>ENT</h2><br>
+				<h2>Orthopediac</h2><br>
+				<h2>Internal Medicine</h2><br>
+				<h2>Pediatric</h2><br>
+			</div></br>
+		</lightning-layout-item>
+    <lightning-layout-item size="1" class="slds-var-p-around_X-small doctor-box">
+    </lightning-layout-item>
+		<lightning-layout-item size="4" class="slds-var-p-around_X-small doctor-box">
+			<div style="font-size: large;font-weight: 600;padding-top:113px; font-style: oblique; color:#FFFFFF;">WORKING HOURS<br><br>
+			<h2> Monday 10:00am - 8:00pm</h2>
+			<h2> Tuesday 10:00am - 8:00pm</h2>
+			<h2> Wednesday 10:00am - 8:00pm</h2>
+			<h2> Thursday 10:00am - 8:00pm</h2>
+			<h2> Friday 10:00am - 8:00pm</h2>
+			<h2> Saturday 10:00am - 8:00pm</h2>
+			<h2>Sunday 10:00am - 8:00pm</h2>
+			
+		
+			
+			</div>
+			
+			<br/>
+				<div style="color:#FFFFFF; padding-right:20px;">Follow us:</div>
+				<a href="https://www.facebook.com/login/" target="blank"><img src="https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1689314764000/Facebook?" width="7%" height="13"></href></a>
+				<a href="https://www.linkedin.com/company/wissen-infotech/" target="_blank"><img src="https://wisseninfotech-cb-dev-ed.develop.my.site.com/resource/1689315624000/linkedin?" width="7%" height="13"></href></a>
+			
+		</lightning-layout-item>
+
 	</lightning-layout>
+</div>
 </template>
 
 <template if:true={doctorDetail}>
@@ -551,7 +515,7 @@
 </template> -->
 <section style="padding: 2px;background-color: #bcbcdd;font-size: medium;font-weight: bold;">Appointment Details</section>
 <lightning-layout multiple-rows>
-	<lightning-layout-item size="6">
+	<lightning-layout-item size="4">
 		<lightning-input
 				type="date"
 				label="Select Date"
@@ -563,7 +527,19 @@
 				></lightning-input>
 	</lightning-layout-item>
 
-	<lightning-layout-item size="6">
+	<lightning-layout-item size="4">
+		<lightning-combobox
+				label="Mode of Treatment"
+				options={treatmentOptions}
+				placeholder="Choose Mode"
+				onchange={handleTreatmentSelection}
+				style="max-width: 90%;"
+				required
+				>
+				</lightning-combobox>
+	</lightning-layout-item>
+
+	<lightning-layout-item size="4">
 		<lightning-combobox
 				label="Available Slots"
 				options={availableSlots}
