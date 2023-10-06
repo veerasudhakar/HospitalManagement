@@ -460,17 +460,31 @@ confirmCancellation() {
     //     const contactId = event.detail.row.Id;
       
     // }
-    @track showDoctorField = false; // New variable to track the visibility of the Doctor field
+    // @track showDoctorField = false; // New variable to track the visibility of the Doctor field
     @track selectedDoctor = '';
+
+     @track recordModal = false;
+    // @track selectedAppointment;
 
     appointmentHandleClick(event){
         this.recordIdForm=event.currentTarget.dataset.recordid
         console.log('this.recordIdForm',this.recordIdForm)
+        this.recordModal = true;
+        console.log(this.recordModal,'this.recordModal');
+
+        //this.selectedAppointment = this.appointmentData.find(appointment => appointment.Id === recordid);
+        
+        // Show the modal
+        //this.recordModal = true;
         // var rowIdofTable = this.template.querySelector('tr').key;
         // alert(rowIdofTable)
-        this.showDoctorField = true;
-        this.selectedDoctor = event.target.dataset.doctorname;
+        // this.showDoctorField = true;
+        // this.selectedDoctor = event.target.dataset.doctorname;
         
+    }
+
+    closeHandleModal(){
+        this.recordModal = false;
     }
 
     

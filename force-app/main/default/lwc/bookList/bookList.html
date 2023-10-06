@@ -1,0 +1,69 @@
+<template>
+    <div class="slds-p-around_medium">
+        <lightning-layout multiple-rows>
+<lightning-layout-item size="4">
+    <lightning-combobox
+    style="text-align: center"
+    label="Select Type"
+    value={selectedType}
+    options={typeOptions}
+    onchange={handleTypeChange}
+></lightning-combobox>
+</lightning-layout-item>
+
+<lightning-layout-item size="6">
+    <lightning-input
+    style="width: 850px;
+    text-align: center"
+    name="enter-search"
+    label="Search For Book"
+    placeholder="Name and Author"
+    type="search"
+    value={searchText}
+    onchange={handleSearchHandler}
+></lightning-input>
+</lightning-layout-item>
+        </lightning-layout> 
+
+        
+            </div>
+    
+    <div class="slds-grid slds-wrap slds-p-around_medium">
+        <template for:each={books} for:item="book">
+            <div key={book.Id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
+                <div class="slds-m-around_small">
+                    <div class="slds-card">
+                        <div style="max-width: 100%;justify-content: center;display: flex;position: relative;align-items: center;">
+                            <img src={book.Image_Url__c} alt={book.Name} onclick={openBookDetailsModal} data-book-id={book.Id} />
+                        </div>
+                    <!-- <div class="slds-card">
+                        <div style="max-width: 100%;justify-content: center;display: flex;position: relative;align-items: center;">
+                        <img src={book.Image_Url__c} alt={book.Name} onclick={navigateToBookDetailPage} data-book-id={book.Id}/>
+                    </div> -->
+                        <div class="slds-card__body" style="text-align: center;">
+                            <p>Book Name : {book.Name}</p>
+                            <p>Type :{book.Type__c}</p>
+                            <p>Book ID: {book.Book_ID__c}</p>
+                            <p>Author: {book.Author__c}</p>
+                            <p>Price: ${book.Price_of_the_book__c}</p>
+                            
+                            <div class="slds-card__footer">
+                                <button class="slds-button slds-button_brand" onclick={buyBook} data-book-id={book.Id} data-book-name={book.Name}>
+                                    Buy a Book
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <template if:true={isBookSelected}>
+        <c-book-about-component bookdata={selectedBookId} oncancelclickhandler={handleCancelModal}></c-book-about-component>
+    </template>
+        <template if:true={showBookDetailsModal}>
+            <c-book-details-modal book={selectedBook} onclosemodal={handleCloseModal}></c-book-details-modal>
+        </template>
+   
+</template>
